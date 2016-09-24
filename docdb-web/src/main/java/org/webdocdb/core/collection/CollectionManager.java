@@ -19,6 +19,7 @@ import org.webdocdb.core.exception.CollectionAccessException;
 @Scope("singleton")
 public class CollectionManager {
 
+	
 	@Autowired
 	protected MongoOperations mongo;
 
