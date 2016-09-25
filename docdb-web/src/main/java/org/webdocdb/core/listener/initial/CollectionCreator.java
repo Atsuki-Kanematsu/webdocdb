@@ -15,27 +15,33 @@ import org.webdocdb.core.document.user.FileDocument;
 import org.webdocdb.core.document.user.QueueDocument;
 import org.webdocdb.core.listener.DocumentRegisterListener;
 import org.webdocdb.core.listener.DocumentSelectListener;
-import org.webdocdb.core.transaction.TransactionThreadManager;
 
 import com.mongodb.DBCollection;
 
 public class CollectionCreator implements DocumentSelectListener, DocumentRegisterListener {
 
 	private MongoOperations mongo;
-	private TransactionThreadManager transactionManager;
 	
 	public CollectionCreator(ApplicationContext context) {
 		this.mongo = context.getBean(MongoOperations.class);
-		this.transactionManager = context.getBean(TransactionThreadManager.class);
 	}
 	
-	@Override
-	public void beforeInsert(Object document) {
+	protected <D extends Document> void checkAndCreate(Class<D> documentClass) {
+		Class<?> clazz = documentClass;
+		do {
+			if (clazz == SystemDocument.class) {
+				createSystemCollection(documentClass.getSimpleName());
+				break;
+			}
+			clazz = clazz.getSuperclass();
+		} while (clazz != null);
+	}
+	protected void checkAndCreate(Object document) {
 		if (document instanceof SystemDocument) {
 			createSystemCollection(document.getClass().getSimpleName());
 		}
 		if (document instanceof UserDocument) {
-			String collectionName = transactionManager.getCollectionName();
+			String collectionName = ((UserDocument) document).getCollectionName();
 			int collectionType = UserCollection.DATA_COLLECTION;
 			if (document instanceof FileDocument) {
 				collectionType = UserCollection.FILE_COLLECTION;
@@ -46,6 +52,11 @@ public class CollectionCreator implements DocumentSelectListener, DocumentRegist
 			createUserCollection(collectionName, collectionType);
 		}
 	}
+	
+	@Override
+	public void beforeInsert(Document document) {
+		checkAndCreate(document);
+	}
 
 	@Override
 	public void afterInsert(Object document) {
@@ -53,18 +64,18 @@ public class CollectionCreator implements DocumentSelectListener, DocumentRegist
 	}
 
 	@Override
-	public void beforeUpdate(Query query, Object before, Object after) {
-		
+	public void beforeUpdate(Query query, Document before, Document after) {
+		checkAndCreate(before);
 	}
 
 	@Override
-	public void afterUpdate(Query query, Object after) {
+	public void afterUpdate(Query query, Document after) {
 		
 	}
 
 	@Override
 	public void beforeDelete(Query query, Document document) {
-		
+		checkAndCreate(document);
 	}
 
 	@Override
@@ -74,14 +85,7 @@ public class CollectionCreator implements DocumentSelectListener, DocumentRegist
 
 	@Override
 	public <D extends Document> void beforeFind(Query query, Class<D> documentClass) {
-		Class<?> clazz = documentClass;
-		do {
-			if (clazz == SystemDocument.class) {
-				createSystemCollection(documentClass.getSimpleName());
-				break;
-			}
-			clazz = clazz.getSuperclass();
-		} while (clazz != null);
+		checkAndCreate(documentClass);
 	}
 
 	@Override
@@ -91,14 +95,7 @@ public class CollectionCreator implements DocumentSelectListener, DocumentRegist
 
 	@Override
 	public <D extends Document> void beforeFindOne(Query query, Class<D> documentClass) {
-		Class<?> clazz = documentClass;
-		do {
-			if (clazz == SystemDocument.class) {
-				createSystemCollection(documentClass.getSimpleName());
-				break;
-			}
-			clazz = clazz.getSuperclass();
-		} while (clazz != null);
+		checkAndCreate(documentClass);
 	}
 
 	@Override

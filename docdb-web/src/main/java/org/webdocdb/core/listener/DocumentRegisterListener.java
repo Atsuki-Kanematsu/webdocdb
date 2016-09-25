@@ -5,13 +5,13 @@ import org.webdocdb.core.document.Document;
 
 public interface DocumentRegisterListener {
 
-	public void beforeInsert(Object document);
+	public void beforeInsert(Document document);
 	
 	public void afterInsert(Object document);
 	
-	public void beforeUpdate(Query query, Object before, Object after);
+	public void beforeUpdate(Query query, Document before, Document after);
 	
-	public void afterUpdate(Query query, Object after);
+	public void afterUpdate(Query query, Document after);
 	
 	public void beforeDelete(Query query, Document document);
 	

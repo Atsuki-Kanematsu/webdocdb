@@ -4,7 +4,7 @@ import java.util.Date;
 
 public abstract class UserDocument extends AbstractDocument implements Document {
 
-	private String collectionId;
+	private String collectionName;
 	private String instanceId;
 	
 	private String creatorId;
@@ -16,11 +16,11 @@ public abstract class UserDocument extends AbstractDocument implements Document 
 	private int status;
 
 	
-	public String getCollectionId() {
-		return collectionId;
+	public String getCollectionName() {
+		return collectionName;
 	}
-	public void setCollectionId(String collectionId) {
-		this.collectionId = collectionId;
+	public void setCollectionName(String collectionName) {
+		this.collectionName = collectionName;
 	}
 	public String getInstanceId() {
 		return instanceId;
