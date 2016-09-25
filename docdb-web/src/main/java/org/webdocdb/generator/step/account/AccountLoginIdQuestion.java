@@ -1,7 +1,9 @@
 package org.webdocdb.generator.step.account;
 
+import org.springframework.stereotype.Component;
 import org.webdocdb.generator.step.Question;
 
+@Component
 public class AccountLoginIdQuestion implements Question {
 
 	@Override

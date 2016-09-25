@@ -4,13 +4,12 @@ import java.util.Date;
 
 public interface Document {
 
-	public static final int STATUS_ENABLE = 0;
-	public static final int STATUS_DISABLE = 1;
-	public static final int STATUS_RESERVED = 2;
-	public static final int STATUS_REMOVED = 3;
+	public static final int STATUS_UNSET = 0;
+	public static final int STATUS_ENABLE = 1;
+	public static final int STATUS_DISABLE = 2;
+	public static final int STATUS_RESERVED = 3;
+	public static final int STATUS_REMOVED = 4;
 	
-	public String getInstanceId();
-	public void setInstanceId(String instanceId);
 	public String getCreatorId();
 	public void setCreatorId(String creatorId);
 	public String getModifierId();

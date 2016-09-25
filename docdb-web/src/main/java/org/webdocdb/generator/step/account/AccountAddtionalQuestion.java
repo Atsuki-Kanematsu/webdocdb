@@ -12,6 +12,7 @@ import org.webdocdb.core.util.StringUtil;
 import org.webdocdb.generator.GenerationParameters;
 import org.webdocdb.generator.step.Question;
 import org.webdocdb.generator.step.account.AccountAddtionalQuestion;
+import org.webdocdb.generator.step.last.SettingExportQuestion;
 
 @Component
 public class AccountAddtionalQuestion implements Question {
@@ -23,7 +24,7 @@ public class AccountAddtionalQuestion implements Question {
 	private GenerationParameters params;
 	
 	@Autowired
-	protected AccountAddtionalQuestion skippedQuestion;
+	protected SettingExportQuestion skippedQuestion;
 
 	@Autowired
 	protected AccountNameQuestion nextQuestion;
@@ -32,7 +33,7 @@ public class AccountAddtionalQuestion implements Question {
 	
 	@Override
 	public String getText() {
-		return "セキュリティグループの追加[Y/N](default:N)";
+		return "アカウント追加[Y/N](default:N)";
 	}
 
 	@Override

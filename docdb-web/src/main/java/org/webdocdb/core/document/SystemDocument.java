@@ -1,7 +1,10 @@
 package org.webdocdb.core.document;
 
-public abstract class SystemDocument extends AbstractDocument implements Document {
+import org.springframework.data.mongodb.core.mapping.Field;
 
+public abstract class SystemDocument extends AbstractDocument {
+
+	@Field
 	private String instanceId;
 
 	public String getInstanceId() {
@@ -11,6 +14,5 @@ public abstract class SystemDocument extends AbstractDocument implements Documen
 	public void setInstanceId(String instanceId) {
 		this.instanceId = instanceId;
 	}
-	
 	
 }

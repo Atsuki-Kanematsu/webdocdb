@@ -2,23 +2,25 @@ package org.webdocdb.core.document;
 
 import java.util.Date;
 
+import org.springframework.data.mongodb.core.mapping.Field;
+
 public abstract class AbstractDocument implements Document {
 
-	private String instanceId;
+	@Field
 	private String creatorId;
+	@Field
 	private String modifierId;
+	@Field
 	private String removerId;
+	@Field
 	private Date createDatetime;
+	@Field
 	private Date modifyDatetime;
+	@Field
 	private Date removeDatetime;
+	@Field
 	private int status;
 	
-	public String getInstanceId() {
-		return instanceId;
-	}
-	public void setInstanceId(String instanceId) {
-		this.instanceId = instanceId;
-	}
 	public String getCreatorId() {
 		return creatorId;
 	}

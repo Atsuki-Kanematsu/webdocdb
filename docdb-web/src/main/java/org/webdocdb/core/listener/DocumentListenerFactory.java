@@ -3,10 +3,15 @@ package org.webdocdb.core.listener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 import org.webdocdb.core.document.Document;
+import org.webdocdb.core.listener.initial.CollectionCreator;
 
 @Component
 @Scope("singleton")
@@ -15,6 +20,16 @@ public class DocumentListenerFactory {
 	private List<DocumentSelectListener> selectListeners = new ArrayList<>();
 	private List<DocumentRegisterListener> registerListeners = new ArrayList<>();
 
+	@Autowired
+	protected ApplicationContext context;
+	
+	@PostConstruct
+	public void postConstruct() {
+		CollectionCreator collectionCreator = new CollectionCreator(context);
+		selectListeners.add(collectionCreator);
+		registerListeners.add(collectionCreator);
+	}
+	
 	public int getSelectListenerSize() {
 		return selectListeners.size();
 	}

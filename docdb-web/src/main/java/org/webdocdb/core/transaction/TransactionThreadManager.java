@@ -47,7 +47,7 @@ public class TransactionThreadManager {
 		}
 		if (account != null) {
 			te.setInstanceId(account.getInstanceId());
-			te.setAccount(account);
+			te.setAccountId(account.getAccountId());
 		}
 		te.setAccessDatetime(accessDatetime);
 		transactionThreadLocal.set(te);
@@ -59,9 +59,9 @@ public class TransactionThreadManager {
 	public String getTransactionId() {
 		return transactionThreadLocal.get().getTransactionId();
 	}
-	
-	public Account getAccessAccount() {
-		return transactionThreadLocal.get().getAccount();
+
+	public String getAccountId() {
+		return transactionThreadLocal.get().getAccountId();
 	}
 	
 	public Date getAccessDatetime() {
@@ -75,7 +75,7 @@ public class TransactionThreadManager {
 	protected static class TransactionEntity {
 		private String instanceId;
 		private String transactionId;
-		private Account account;
+		private String accountId;
 		private Date accessDatetime;
 		
 		
@@ -91,11 +91,11 @@ public class TransactionThreadManager {
 		public void setTransactionId(String transactionId) {
 			this.transactionId = transactionId;
 		}
-		public Account getAccount() {
-			return account;
+		public String getAccountId() {
+			return accountId;
 		}
-		public void setAccount(Account account) {
-			this.account = account;
+		public void setAccountId(String accountId) {
+			this.accountId = accountId;
 		}
 		public Date getAccessDatetime() {
 			return accessDatetime;
