@@ -8,27 +8,42 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 import org.webdocdb.core.document.Document;
 import org.webdocdb.core.document.SystemDocument;
+import org.webdocdb.core.document.UserDocument;
 import org.webdocdb.core.document.system.SystemCollection;
 import org.webdocdb.core.document.system.UserCollection;
+import org.webdocdb.core.document.user.FileDocument;
+import org.webdocdb.core.document.user.QueueDocument;
 import org.webdocdb.core.listener.DocumentRegisterListener;
 import org.webdocdb.core.listener.DocumentSelectListener;
-import org.webdocdb.core.service.system.IdService;
+import org.webdocdb.core.transaction.TransactionThreadManager;
 
 import com.mongodb.DBCollection;
 
 public class CollectionCreator implements DocumentSelectListener, DocumentRegisterListener {
 
 	private MongoOperations mongo;
-	private IdService idService;
+	private TransactionThreadManager transactionManager;
 	
 	public CollectionCreator(ApplicationContext context) {
 		this.mongo = context.getBean(MongoOperations.class);
+		this.transactionManager = context.getBean(TransactionThreadManager.class);
 	}
 	
 	@Override
 	public void beforeInsert(Object document) {
 		if (document instanceof SystemDocument) {
 			createSystemCollection(document.getClass().getSimpleName());
+		}
+		if (document instanceof UserDocument) {
+			String collectionName = transactionManager.getCollectionName();
+			int collectionType = UserCollection.DATA_COLLECTION;
+			if (document instanceof FileDocument) {
+				collectionType = UserCollection.FILE_COLLECTION;
+			}
+			if (document instanceof QueueDocument) {
+				collectionType = UserCollection.QUEUE_COLLECTION;
+			}
+			createUserCollection(collectionName, collectionType);
 		}
 	}
 

@@ -18,9 +18,9 @@ public class TransactionThreadManager {
 	@Autowired
 	protected TransactionService transactionService;
 	
-	public void begin(Account account, Date accessDatetime) {
+	public void begin(Account account, Date accessDatetime, String collectionName) {
 		String transactionId = transactionService.begin(account);
-		in(transactionId, account, accessDatetime);
+		in(transactionId, account, accessDatetime, collectionName);
 	}
 	
 	public void commit() {
@@ -34,10 +34,14 @@ public class TransactionThreadManager {
 	}
 	
 	public void in(Account account, Date accessDatetime) {
-		in(null, account, accessDatetime);
+		in(null, account, accessDatetime, null);
 	}
 	
-	public void in(String transactionId, Account account, Date accessDatetime) {
+	public void in(Account account, Date accessDatetime, String collectionId) {
+		in(null, account, accessDatetime, collectionId);
+	}
+	
+	public void in(String transactionId, Account account, Date accessDatetime, String collectionName) {
 		TransactionEntity te = transactionThreadLocal.get();
 		if (te == null) {
 			te = new TransactionEntity();
@@ -68,6 +72,10 @@ public class TransactionThreadManager {
 		return transactionThreadLocal.get().getAccessDatetime();
 	}
 	
+	public String getCollectionName() {
+		return transactionThreadLocal.get().getCollectionName();
+	}
+	
 	public void out() {
 		transactionThreadLocal.remove();
 	}
@@ -76,6 +84,7 @@ public class TransactionThreadManager {
 		private String instanceId;
 		private String transactionId;
 		private String accountId;
+		private String collectionName;
 		private Date accessDatetime;
 		
 		
@@ -102,6 +111,12 @@ public class TransactionThreadManager {
 		}
 		public void setAccessDatetime(Date accessDatetime) {
 			this.accessDatetime = accessDatetime;
+		}
+		public String getCollectionName() {
+			return collectionName;
+		}
+		public void setCollectionName(String collectionName) {
+			this.collectionName = collectionName;
 		}
 		
 	}
