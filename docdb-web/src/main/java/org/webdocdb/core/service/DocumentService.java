@@ -97,6 +97,10 @@ public abstract class DocumentService<D extends Document> {
 		return documents;
 	}
 	
+	protected void insert(String collectionName, D document) {
+		
+	}
+	
 	protected void insert(String collectionName, int collectionType, D document) {
 		Collection collection;
 		if (!collectionManager.exists(collectionName)) {
