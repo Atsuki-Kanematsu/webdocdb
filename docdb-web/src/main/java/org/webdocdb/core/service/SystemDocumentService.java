@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.mongodb.core.query.Query;
 import org.webdocdb.core.document.SystemDocument;
+import org.webdocdb.core.document.system.Collection;
 
 public abstract class SystemDocumentService<D extends SystemDocument> extends DocumentService<D> {
 
@@ -25,28 +26,28 @@ public abstract class SystemDocumentService<D extends SystemDocument> extends Do
 		return super.find(collectionName, query);
 	}
 	
-	protected void insert(D document, int collectionType) {
+	protected void insert(D document) {
 		Class<D> clazz = getGenericType();
 		String collectionName = clazz.getSimpleName();
-		super.insert(collectionName, collectionType, document);
+		super.insert(collectionName, Collection.SYSTEM_COLLECTION, document);
 	}
 	
 	protected void update(D document) {
 		Class<D> clazz = getGenericType();
 		String collectionName = clazz.getSimpleName();
-		super.update(collectionName, document);
+		super.update(collectionName, Collection.SYSTEM_COLLECTION, document);
 	}
 
 	protected void delete(D document) {
 		Class<D> clazz = getGenericType();
 		String collectionName = clazz.getSimpleName();
-		super.delete(collectionName, document);
+		super.delete(collectionName, Collection.SYSTEM_COLLECTION, document);
 	}
 
 	protected void delete(String documentId) {
 		Class<D> clazz = getGenericType();
 		String collectionName = clazz.getSimpleName();
-		super.delete(collectionName, documentId);
+		super.delete(collectionName, Collection.SYSTEM_COLLECTION, documentId);
 	}
 
 }

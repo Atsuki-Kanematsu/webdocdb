@@ -13,7 +13,7 @@ import org.webdocdb.core.service.SystemDocumentService;
 public class InstanceService extends SystemDocumentService<Instance> {
 
 	public void create(Instance instance) {
-		super.insert(instance, Collection.SYSTEM_COLLECTION);
+		super.insert(instance);
 	}
 	
 	public Instance findById(String instanceId) {

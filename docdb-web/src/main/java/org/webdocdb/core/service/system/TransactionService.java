@@ -20,7 +20,7 @@ public class TransactionService extends SystemDocumentService<Transaction> {
 		tran.setBeginDatetime(new Date());
 		tran.setLimitDatetime(new Date());
 		tran.setTransactDocuments(new HashSet<>());
-		super.insert(tran, Collection.SYSTEM_COLLECTION);
+		super.insert(tran);
 		return tran.getTransactionId();
 	}
 	

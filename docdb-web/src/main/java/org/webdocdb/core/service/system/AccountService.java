@@ -12,7 +12,7 @@ public class AccountService extends SystemDocumentService<Account> {
 	}
 	
 	public void create(Account account) {
-		super.insert(account, Collection.SYSTEM_COLLECTION);
+		super.insert(account);
 	}
 	
 	public void modify(Account account) {

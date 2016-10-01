@@ -13,7 +13,7 @@ public class GroupService extends SystemDocumentService<Group> {
 	}
 	
 	public void create(Group group) {
-		super.insert(group, Collection.SYSTEM_COLLECTION);
+		super.insert(group);
 	}
 	
 	public Group create(String groupName) {

@@ -26,7 +26,7 @@ public class IdService extends SystemDocumentService<UniqueId> {
 		id.setUniqueId(uuid);
 		id.setIdType(idType);
 		id.setInstanceId("");
-		super.insert(id, Collection.SYSTEM_COLLECTION);
+		super.insert(id);
 		return uuid;
 	}
 }
