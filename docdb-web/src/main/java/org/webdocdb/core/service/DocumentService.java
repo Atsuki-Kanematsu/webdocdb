@@ -61,21 +61,22 @@ public abstract class DocumentService<D extends Document> {
 		return null;
 	}
 	
-	protected D findById(String collectionName, String id) {
+	protected D findById(String collectionName, int collectionType, String id) {
 		String idField = getIdField().getName();
 		Criteria criteria = Criteria.where(idField).is(id);
-		return findOne(collectionName, new Query(criteria));
+		return findOne(collectionName, collectionType, new Query(criteria));
 	}
 	
-	protected D findOne(String collectionName, Query query) {
+	protected D findOne(String collectionName, int collectionType, Query query) {
 		if (!collectionManager.exists(collectionName)) {
 			return null;
 		}
+		Collection collection = collectionManager.getByName(collectionName);
 		Class<D> documentClass = getGenericType();
 		if (!stopListening) {
 			listenerFactory.callBeforeFindOne(query, documentClass);
 		}
-		D document = mongo.findOne(query, getGenericType(), collectionName);
+		D document = mongo.findOne(query, getGenericType(), collection.getCollectionId());
 		if (!stopListening) {
 			listenerFactory.callAfterFindOne(query, document, documentClass);
 		}
@@ -86,19 +87,16 @@ public abstract class DocumentService<D extends Document> {
 		if (!collectionManager.exists(collectionName)) {
 			return new ArrayList<>();
 		}
+		Collection collection = collectionManager.getByName(collectionName);
 		Class<D> documentClass = getGenericType();
 		if (!stopListening) {
 			listenerFactory.callBeforeFindOne(query, documentClass);
 		}
-		List<D> documents = mongo.find(query, getGenericType(), collectionName);
+		List<D> documents = mongo.find(query, getGenericType(), collection.getCollectionName());
 		if (!stopListening) {
 			listenerFactory.callAfterFind(query, documents, documentClass);
 		}
 		return documents;
-	}
-	
-	protected void insert(String collectionName, D document) {
-		
 	}
 	
 	protected void insert(String collectionName, int collectionType, D document) {
@@ -127,7 +125,7 @@ public abstract class DocumentService<D extends Document> {
 		stopListening = true;
 		D beforeDocument = null;
 		try {
-			beforeDocument = findOne(collectionName, idQuery);
+			beforeDocument = findOne(collectionName, collectionType, idQuery);
 			if (beforeDocument == null) {
 				throw new RuntimeException("TODO:Entity notfound.");
 			}
@@ -152,7 +150,7 @@ public abstract class DocumentService<D extends Document> {
 		Query idQuery = createIdFindQuery(document);
 		stopListening = true;
 		try {
-			if (findOne(collectionName, idQuery) == null) {
+			if (findOne(collectionName, collectionType, idQuery) == null) {
 				throw new RuntimeException("TODO:Entity notfound.");
 			}
 		} finally {
@@ -168,7 +166,7 @@ public abstract class DocumentService<D extends Document> {
 		stopListening = true;
 		D document = null;
 		try {
-			document = findById(dbCollectionName, documentId);
+			document = findById(dbCollectionName, collectionType, documentId);
 			if (document == null) {
 				throw new RuntimeException("TODO:Entity notfound.");
 			}
