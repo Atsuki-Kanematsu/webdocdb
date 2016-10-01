@@ -1,4 +1,4 @@
-package org.webdocdb.core.collection;
+package org.webdocdb.core.manager;
 
 import java.util.HashMap;
 import java.util.List;

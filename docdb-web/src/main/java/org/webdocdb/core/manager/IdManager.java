@@ -1,21 +1,28 @@
-package org.webdocdb.core.collection;
+package org.webdocdb.core.manager;
 
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.webdocdb.core.document.Document;
 import org.webdocdb.core.document.system.UniqueId;
 import org.webdocdb.core.transaction.TransactionThreadManager;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 
 @Service
 @Scope("singleton")
 public class IdManager {
 
+	protected static final String DB_COLLECTION_NAME = "uniqueId";
+	
 	@Autowired
 	protected MongoOperations mongo;
 
@@ -32,7 +39,13 @@ public class IdManager {
 			// TODO: throw new IdNotFoundException();
 			throw new RuntimeException("");
 		}
+		UniqueId uniqueId = findById(id);
+		uniqueId.setStatus(Document.STATUS_ENABLE);
 		
+		Criteria criteria = Criteria.where("uniqueId").is(id);
+		DBObject dbObject = new BasicDBObject();
+		mongo.getConverter().write(uniqueId, dbObject);
+		mongo.updateFirst(new Query(criteria), Update.fromDBObject(dbObject, "_id"), DB_COLLECTION_NAME);
 	}
 	
 	protected String reserveId(int idType) {
@@ -53,7 +66,7 @@ public class IdManager {
 	}
 	
 	protected void createDBCollection() {
-		DBCollection dbCol = mongo.getCollection("uniqueId");
+		DBCollection dbCol = mongo.getCollection(DB_COLLECTION_NAME);
 		if (dbCol != null) {
 			return;
 		}
@@ -61,8 +74,21 @@ public class IdManager {
 		dbCol.createIndex("{uniqueId : 1}, {unique : true}");
 		dbCol.createIndex("{idType : 1}");
 	}
+	
 	protected boolean exists(String id) {
-		return false;
+		UniqueId uniqueId = findById(id);
+		return uniqueId != null;
+	}
+	
+	protected UniqueId findById(String id) {
+		DBCollection dbCol = mongo.getCollection(DB_COLLECTION_NAME);
+		if (dbCol == null) {
+			return null;
+		}
+		Criteria criteria = Criteria.where("uniqueId").is(id);
+		Query query = new Query(criteria);
+		UniqueId uniqueId = mongo.findOne(query, UniqueId.class, DB_COLLECTION_NAME);
+		return uniqueId;
 	}
 	
 }

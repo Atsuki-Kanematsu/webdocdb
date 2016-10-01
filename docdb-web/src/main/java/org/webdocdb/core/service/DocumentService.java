@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.webdocdb.core.listener.DocumentListenerFactory;
+import org.webdocdb.core.manager.CollectionManager;
 import org.webdocdb.core.service.system.IdService;
 import org.webdocdb.core.transaction.TransactionThreadManager;
 import org.webdocdb.core.util.StringUtil;
@@ -21,7 +22,6 @@ import org.webdocdb.core.util.StringUtil;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
-import org.webdocdb.core.collection.CollectionManager;
 import org.webdocdb.core.document.Document;
 import org.webdocdb.core.document.SystemDocument;
 import org.webdocdb.core.document.UserDocument;
