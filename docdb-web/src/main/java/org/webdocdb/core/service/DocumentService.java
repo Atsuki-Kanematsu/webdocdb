@@ -26,6 +26,9 @@ import org.webdocdb.core.document.SystemDocument;
 import org.webdocdb.core.document.UserDocument;
 import org.webdocdb.core.document.annotation.Id;
 import org.webdocdb.core.document.system.Collection;
+import org.webdocdb.core.document.user.DataDocument;
+import org.webdocdb.core.document.user.FileDocument;
+import org.webdocdb.core.document.user.QueueDocument;
 
 @SuppressWarnings("unchecked")
 public abstract class DocumentService<D extends Document> {
@@ -58,48 +61,48 @@ public abstract class DocumentService<D extends Document> {
 		return null;
 	}
 	
-	protected D findById(String dbCollectionName, String id) {
+	protected D findById(String collectionName, String id) {
 		String idField = getIdField().getName();
 		Criteria criteria = Criteria.where(idField).is(id);
-		return findOne(dbCollectionName, new Query(criteria));
+		return findOne(collectionName, new Query(criteria));
 	}
 	
-	protected D findOne(String dbCollectionName, Query query) {
-		if (!collectionManager.exists(dbCollectionName)) {
+	protected D findOne(String collectionName, Query query) {
+		if (!collectionManager.exists(collectionName)) {
 			return null;
 		}
 		Class<D> documentClass = getGenericType();
 		if (!stopListening) {
 			listenerFactory.callBeforeFindOne(query, documentClass);
 		}
-		D document = mongo.findOne(query, getGenericType(), dbCollectionName);
+		D document = mongo.findOne(query, getGenericType(), collectionName);
 		if (!stopListening) {
 			listenerFactory.callAfterFindOne(query, document, documentClass);
 		}
 		return document;
 	}
 	
-	protected List<D> find(String dbCollectionName, Query query) {
-		if (!collectionManager.exists(dbCollectionName)) {
+	protected List<D> find(String collectionName, Query query) {
+		if (!collectionManager.exists(collectionName)) {
 			return new ArrayList<>();
 		}
 		Class<D> documentClass = getGenericType();
 		if (!stopListening) {
 			listenerFactory.callBeforeFindOne(query, documentClass);
 		}
-		List<D> documents = mongo.find(query, getGenericType(), dbCollectionName);
+		List<D> documents = mongo.find(query, getGenericType(), collectionName);
 		if (!stopListening) {
 			listenerFactory.callAfterFind(query, documents, documentClass);
 		}
 		return documents;
 	}
 	
-	protected void insert(String dbCollectionName, int collectionType, D document) {
+	protected void insert(String collectionName, int collectionType, D document) {
 		Collection collection;
-		if (!collectionManager.exists(dbCollectionName)) {
-			collection = collectionManager.create(dbCollectionName, collectionType);
+		if (!collectionManager.exists(collectionName)) {
+			collection = collectionManager.create(collectionName, collectionType);
 		} else {
-			collection = collectionManager.getById(dbCollectionName);
+			collection = collectionManager.getById(collectionName);
 		}
 		String collectionId = collection.getCollectionId();
 		setTimestamp(document, false);
@@ -108,12 +111,19 @@ public abstract class DocumentService<D extends Document> {
 		listenerFactory.callAfterInsert(document);
 	}
 	
-	protected void update(String dbCollectionName, D document) {
+	protected void update(String collectionName, int collectionType, D document) {
+		Collection collection;
+		if (!collectionManager.exists(collectionName)) {
+			collection = collectionManager.create(collectionName, collectionType);
+		} else {
+			collection = collectionManager.getById(collectionName);
+		}
+		
 		Query idQuery = createIdFindQuery(document);
 		stopListening = true;
 		D beforeDocument = null;
 		try {
-			beforeDocument = findOne(dbCollectionName, idQuery);
+			beforeDocument = findOne(collectionName, idQuery);
 			if (beforeDocument == null) {
 				throw new RuntimeException("TODO:Entity notfound.");
 			}
@@ -124,15 +134,21 @@ public abstract class DocumentService<D extends Document> {
 		DBObject dbObject = new BasicDBObject();
 		mongo.getConverter().write(document, dbObject);
 		listenerFactory.callBeforeUpdate(idQuery, beforeDocument, document);
-		mongo.updateFirst(idQuery, Update.fromDBObject(dbObject, "_id"), getGenericType());
+		mongo.updateFirst(idQuery, Update.fromDBObject(dbObject, "_id"), collection.getCollectionName());
 		listenerFactory.callAfterUpdate(idQuery, document);
 	}
 	
-	protected void delete(String dbCollectionName, D document) {
+	protected void delete(String collectionName, int collectionType, D document) {
+		Collection collection;
+		if (!collectionManager.exists(collectionName)) {
+			collection = collectionManager.create(collectionName, collectionType);
+		} else {
+			collection = collectionManager.getById(collectionName);
+		}
 		Query idQuery = createIdFindQuery(document);
 		stopListening = true;
 		try {
-			if (findOne(dbCollectionName, idQuery) == null) {
+			if (findOne(collectionName, idQuery) == null) {
 				throw new RuntimeException("TODO:Entity notfound.");
 			}
 		} finally {
@@ -140,11 +156,11 @@ public abstract class DocumentService<D extends Document> {
 		}
 		setTimestamp(document, true);
 		listenerFactory.callBeforeDelete(idQuery, document);
-		mongo.remove(idQuery, getGenericType());
+		mongo.remove(idQuery, collection.getCollectionId());
 		listenerFactory.callAfterDelete(idQuery, document);
 	}
 	
-	protected void delete(String dbCollectionName, String documentId) {
+	protected void delete(String dbCollectionName, int collectionType, String documentId) {
 		stopListening = true;
 		D document = null;
 		try {
@@ -155,7 +171,7 @@ public abstract class DocumentService<D extends Document> {
 		} finally {
 			stopListening = false;
 		}
-		delete(dbCollectionName, document);
+		delete(dbCollectionName, collectionType, document);
 	}
 	
 	protected Query createIdFindQuery(D document) {

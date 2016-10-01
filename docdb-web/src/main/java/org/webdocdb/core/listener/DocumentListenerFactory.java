@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 import org.webdocdb.core.document.Document;
-import org.webdocdb.core.listener.initial.CollectionCreator;
 
 @Component
 @Scope("singleton")
@@ -25,9 +24,7 @@ public class DocumentListenerFactory {
 	
 	@PostConstruct
 	public void postConstruct() {
-		CollectionCreator collectionCreator = new CollectionCreator(context);
-		selectListeners.add(collectionCreator);
-		registerListeners.add(collectionCreator);
+		
 	}
 	
 	public int getSelectListenerSize() {

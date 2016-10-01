@@ -9,44 +9,44 @@ public abstract class SystemDocumentService<D extends SystemDocument> extends Do
 
 	protected D findById(String id) {
 		Class<D> clazz = getGenericType();
-		String dbCollectionName = clazz.getSimpleName();
-		return super.findById(dbCollectionName, id);
+		String collectionName = clazz.getSimpleName();
+		return super.findById(collectionName, id);
 	}
 	
 	protected D findOne(Query query) {
 		Class<D> clazz = getGenericType();
-		String dbCollectionName = clazz.getSimpleName();
-		return super.findOne(dbCollectionName, query);
+		String collectionName = clazz.getSimpleName();
+		return super.findOne(collectionName, query);
 	}
 	
 	protected List<D> find(Query query) {
 		Class<D> clazz = getGenericType();
-		String dbCollectionName = clazz.getSimpleName();
-		return super.find(dbCollectionName, query);
+		String collectionName = clazz.getSimpleName();
+		return super.find(collectionName, query);
 	}
 	
 	protected void insert(D document, int collectionType) {
 		Class<D> clazz = getGenericType();
-		String dbCollectionName = clazz.getSimpleName();
-		super.insert(dbCollectionName, collectionType, document);
+		String collectionName = clazz.getSimpleName();
+		super.insert(collectionName, collectionType, document);
 	}
 	
 	protected void update(D document) {
 		Class<D> clazz = getGenericType();
-		String dbCollectionName = clazz.getSimpleName();
-		super.update(dbCollectionName, document);
+		String collectionName = clazz.getSimpleName();
+		super.update(collectionName, document);
 	}
 
 	protected void delete(D document) {
 		Class<D> clazz = getGenericType();
-		String dbCollectionName = clazz.getSimpleName();
-		super.delete(dbCollectionName, document);
+		String collectionName = clazz.getSimpleName();
+		super.delete(collectionName, document);
 	}
 
 	protected void delete(String documentId) {
 		Class<D> clazz = getGenericType();
-		String dbCollectionName = clazz.getSimpleName();
-		super.delete(dbCollectionName, documentId);
+		String collectionName = clazz.getSimpleName();
+		super.delete(collectionName, documentId);
 	}
 
 }

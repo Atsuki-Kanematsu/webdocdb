@@ -17,6 +17,8 @@ import org.webdocdb.core.document.system.Collection;
 import org.webdocdb.core.exception.CollectionAccessException;
 import org.webdocdb.core.transaction.TransactionThreadManager;
 
+import com.mongodb.DBCollection;
+
 @Service
 @Scope("singleton")
 public class CollectionManager {
@@ -30,13 +32,16 @@ public class CollectionManager {
 	
 
 	private Map<String, Collection> idMap;
+	private Map<String, Collection> nameMap;
 	
 	@PostConstruct
 	public void load() {
 		idMap = new HashMap<>();
+		nameMap = new HashMap<>();
 		List<Collection> collections = mongo.findAll(Collection.class, "collection");
 		for (Collection collection : collections) {
 			idMap.put(collection.getCollectionId(), collection);
+			nameMap.put(collection.getCollectionName(), collection);
 		}
 	}
 	
@@ -47,6 +52,19 @@ public class CollectionManager {
 		Collection collection = findById(collectionId);
 		if (collection != null) {
 			idMap.put(collection.getCollectionId(), collection);
+			nameMap.put(collection.getCollectionName(), collection);
+		}
+		return collection;
+	}
+
+	public Collection getByName(String collectionName) {
+		if (nameMap.containsKey(collectionName)) {
+			return nameMap.get(collectionName);
+		}
+		Collection collection = findByName(collectionName);
+		if (collection != null) {
+			idMap.put(collection.getCollectionId(), collection);
+			nameMap.put(collection.getCollectionName(), collection);
 		}
 		return collection;
 	}
@@ -65,7 +83,7 @@ public class CollectionManager {
 	
 	public Collection create(String collectionName, int collectionType) {
 		if (!mongo.collectionExists("collection")) {
-			mongo.createCollection("collection");
+			defineDBColection();
 		}
 		if (exists(collectionName)) {
 			throw new CollectionAccessException("collection already exists");
@@ -92,6 +110,15 @@ public class CollectionManager {
 		return mongo.findOne(query, Collection.class, "collection");
 	}
 	
+	protected Collection findByName(String collectionName) {
+		if (!mongo.collectionExists("collection")) {
+			return null;
+		}
+		Criteria criteria = Criteria.where("collectionName").is(collectionName);
+		Query query = new Query(criteria);
+		return mongo.findOne(query, Collection.class, "collection");
+	}
+	
 	public void remove(String collectionId) {
 		Collection collection = findById(collectionId);
 		idMap.remove(collectionId);
@@ -99,5 +126,9 @@ public class CollectionManager {
 		mongo.dropCollection(collectionId);
 	}
 	
-	
+	protected void defineDBColection() {
+		DBCollection dbCol = mongo.createCollection("collection");
+		dbCol.createIndex("{collectionId : 1}, {unique : true}");
+		dbCol.createIndex("{collectionName : 1}");
+	}
 }

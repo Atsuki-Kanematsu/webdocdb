@@ -4,7 +4,7 @@ import org.webdocdb.core.document.SystemDocument;
 
 public class Collection extends SystemDocument {
 
-	public static final int USER_COLLECTION = 0;
+	public static final int DATA_COLLECTION = 0;
 	public static final int QUEUE_COLLECTION = 1;
 	public static final int FILE_COLLECTION = 2;
 	public static final int SYSTEM_COLLECTION = 9;

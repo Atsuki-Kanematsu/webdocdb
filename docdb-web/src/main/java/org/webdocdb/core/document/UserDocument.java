@@ -4,9 +4,7 @@ import java.util.Date;
 
 public abstract class UserDocument extends AbstractDocument implements Document {
 
-	private String collectionName;
 	private String instanceId;
-	
 	private String creatorId;
 	private String modifierId;
 	private String removerId;
@@ -15,13 +13,6 @@ public abstract class UserDocument extends AbstractDocument implements Document 
 	private Date removeDatetime;
 	private int status;
 
-	
-	public String getCollectionName() {
-		return collectionName;
-	}
-	public void setCollectionName(String collectionName) {
-		this.collectionName = collectionName;
-	}
 	public String getInstanceId() {
 		return instanceId;
 	}
