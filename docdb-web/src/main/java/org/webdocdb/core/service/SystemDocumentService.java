@@ -11,19 +11,19 @@ public abstract class SystemDocumentService<D extends SystemDocument> extends Do
 	protected D findById(String id) {
 		Class<D> clazz = getGenericType();
 		String collectionName = clazz.getSimpleName();
-		return super.findById(collectionName, id);
+		return super.findById(collectionName, Collection.SYSTEM_COLLECTION, id);
 	}
 	
 	protected D findOne(Query query) {
 		Class<D> clazz = getGenericType();
 		String collectionName = clazz.getSimpleName();
-		return super.findOne(collectionName, query);
+		return super.findOne(collectionName, Collection.SYSTEM_COLLECTION, query);
 	}
 	
 	protected List<D> find(Query query) {
 		Class<D> clazz = getGenericType();
 		String collectionName = clazz.getSimpleName();
-		return super.find(collectionName, query);
+		return super.find(collectionName, Collection.SYSTEM_COLLECTION, query);
 	}
 	
 	protected void insert(D document) {

@@ -1,5 +1,6 @@
 package org.webdocdb.core.service;
 
+
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -26,13 +27,8 @@ import org.webdocdb.core.document.SystemDocument;
 import org.webdocdb.core.document.UserDocument;
 import org.webdocdb.core.document.annotation.Id;
 import org.webdocdb.core.document.system.Collection;
-import org.webdocdb.core.document.user.DataDocument;
-import org.webdocdb.core.document.user.FileDocument;
-import org.webdocdb.core.document.user.QueueDocument;
 
-@SuppressWarnings("unchecked")
 public abstract class DocumentService<D extends Document> {
-
 	@Autowired
 	protected MongoOperations mongo;
 	
@@ -84,7 +80,7 @@ public abstract class DocumentService<D extends Document> {
 		return document;
 	}
 	
-	protected List<D> find(String collectionName, Query query) {
+	protected List<D> find(String collectionName, int collectionType, Query query) {
 		if (!collectionManager.exists(collectionName)) {
 			return new ArrayList<>();
 		}
@@ -93,7 +89,7 @@ public abstract class DocumentService<D extends Document> {
 		if (!stopListening) {
 			listenerFactory.callBeforeFindOne(query, documentClass);
 		}
-		List<D> documents = mongo.find(query, getGenericType(), collection.getCollectionName());
+		List<D> documents = mongo.find(query, getGenericType(), collection.getCollectionId());
 		if (!stopListening) {
 			listenerFactory.callAfterFind(query, documents, documentClass);
 		}
@@ -238,4 +234,5 @@ public abstract class DocumentService<D extends Document> {
 			document.setStatus(Document.STATUS_REMOVED);
 		}
 	}
+
 }
