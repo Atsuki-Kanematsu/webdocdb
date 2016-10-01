@@ -51,6 +51,7 @@ public abstract class DocumentService<D extends Document> {
 	
 	protected boolean stopListening = false;
 	
+	@SuppressWarnings("unchecked")
 	protected Class<D> getGenericType() {
 		Type gs = this.getClass().getGenericSuperclass();
 		if (gs instanceof ParameterizedType) {
