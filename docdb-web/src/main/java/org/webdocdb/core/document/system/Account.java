@@ -5,10 +5,12 @@ import java.util.Date;
 import org.webdocdb.core.document.DocumentContent;
 import org.webdocdb.core.document.SystemDocument;
 import org.webdocdb.core.document.annotation.IdGenerate;
+import org.webdocdb.core.document.annotation.PrimaryKey;
 
 public class Account extends SystemDocument {
 
 	@IdGenerate(idType = UniqueId.ID_TYPE_ACCOUNT_AND_GROUP)
+	@PrimaryKey
 	private String accountId;
 	private String accountName;
 	private DocumentContent accountMeta;

@@ -2,9 +2,11 @@ package org.webdocdb.core.document.system;
 
 import org.webdocdb.core.document.DocumentContent;
 import org.webdocdb.core.document.SystemDocument;
+import org.webdocdb.core.document.annotation.PrimaryKey;
 
 public class Instance extends SystemDocument {
 
+	@PrimaryKey
 	private String instanceId;
 	private String instanceName;
 	private DocumentContent instanceMeta;

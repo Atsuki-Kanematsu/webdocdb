@@ -2,12 +2,14 @@ package org.webdocdb.core.document.system;
 
 import org.webdocdb.core.document.DocumentContent;
 import org.webdocdb.core.document.SystemDocument;
+import org.webdocdb.core.document.annotation.PrimaryKey;
 
 public class Group extends SystemDocument {
 
 	public static final int GROUP_TYPE_USER = 0;
 	public static final int GROUP_TYPE_SYSTEM = 1;
 	
+	@PrimaryKey
 	private String groupId;
 	private String groupName;
 	private DocumentContent groupMeta;

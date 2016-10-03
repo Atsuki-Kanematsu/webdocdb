@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.webdocdb.core.document.DocumentContent;
 import org.webdocdb.core.document.SystemDocument;
-import org.webdocdb.core.document.annotation.IdGenerate;
 
 public class AccessToken extends SystemDocument {
 

@@ -1,5 +1,6 @@
 package org.webdocdb.core.service;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -23,7 +24,7 @@ import com.mongodb.DBObject;
 import org.webdocdb.core.document.Document;
 import org.webdocdb.core.document.SystemDocument;
 import org.webdocdb.core.document.UserDocument;
-import org.webdocdb.core.document.annotation.Unique;
+import org.webdocdb.core.document.annotation.PrimaryKey;
 import org.webdocdb.core.document.system.Collection;
 
 public abstract class DocumentService<D extends Document> {
@@ -184,8 +185,8 @@ public abstract class DocumentService<D extends Document> {
 	protected Field getIdField() {
 		Class<D> clazz = getGenericType();
 		for (Field field : clazz.getDeclaredFields()) {
-			Unique id = field.getDeclaredAnnotation(Unique.class);
-			if (id == null) {
+			PrimaryKey pk = field.getDeclaredAnnotation(PrimaryKey.class);
+			if (pk == null) {
 				continue;
 			}
 			return field;

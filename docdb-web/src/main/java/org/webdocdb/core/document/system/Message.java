@@ -1,9 +1,11 @@
 package org.webdocdb.core.document.system;
 
 import org.webdocdb.core.document.SystemDocument;
+import org.webdocdb.core.document.annotation.PrimaryKey;
 
 public class Message extends SystemDocument {
 
+	@PrimaryKey
 	private String messageId;
 	private String languageId;
 	private String messageText;
