@@ -13,7 +13,7 @@ public interface DocumentSelectListener {
 	
 	public <D extends Document> void beforeFindOne(Query query, Class<D> documentClass);
 	
-	public <D extends Document> void afterFindOne(Query idQuery,  D foundDocument, Class<D> documentClass);
+	public <D extends Document> void afterFindOne(Query query,  D foundDocument, Class<D> documentClass);
 	
 	
 }

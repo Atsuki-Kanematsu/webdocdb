@@ -1,5 +1,6 @@
 package org.webdocdb.core.listener;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,88 +12,141 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 import org.webdocdb.core.document.Document;
+import org.webdocdb.core.listener.initial.IdGenerator;
 
 @Component
 @Scope("singleton")
 public class DocumentListenerFactory {
 
-	private List<DocumentSelectListener> selectListeners = new ArrayList<>();
-	private List<DocumentRegisterListener> registerListeners = new ArrayList<>();
+	private List<Object> selectListenerList;
+	private List<Object> registerListenerList;
+	
 
 	@Autowired
 	protected ApplicationContext context;
 	
 	@PostConstruct
 	public void postConstruct() {
-		
+		selectListenerList = new ArrayList<>();
+		registerListenerList = new ArrayList<>();
+		selectListenerList.add(IdGenerator.class);
 	}
 	
-	public int getSelectListenerSize() {
-		return selectListeners.size();
-	}
-	public int getRegisterListenerSize() {
-		return registerListeners.size();
-	}
-
-	public DocumentSelectListener getSelectListener(int index) {
-		return selectListeners.get(index);
-	}
-	public DocumentRegisterListener getRegisterListener(int index) {
-		return registerListeners.get(index);
+	protected void invokeListenerMethod(Object target, String methodName, Class<?>[] argClasses, Object args) {
+		Object listener = null;
+		if (target instanceof Class) {
+			listener = context.getBean((Class<?>) target);
+		} else {
+			listener = target;
+		}
+		if (listener == null) {
+			return;
+		}
+		Method method;
+		try {
+			method = listener.getClass().getDeclaredMethod(methodName, argClasses);
+			method.invoke(listener, args);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
 	}
 	
-
+	
 	public <D extends Document> void callBeforeFind(Query query, Class<D> documentClass) {
-		for (DocumentSelectListener listener : selectListeners) {
-			listener.beforeFind(query, documentClass);
+		for (Object listenerDef : selectListenerList) {
+			invokeListenerMethod(
+					listenerDef, 
+					"beforeFind", 
+					new Class[] {Query.class, Class.class},
+					new Object[] {query, documentClass});
 		}
 	}
 	
 	public <D extends Document> void callAfterFind(Query query, List<D> foundDocuments, Class<D> documentClass) {
-		for (DocumentSelectListener listener : selectListeners) {
-			listener.afterFind(query, foundDocuments, documentClass);
+		for (Object listenerDef : selectListenerList) {
+			invokeListenerMethod(
+					listenerDef, 
+					"afterFind", 
+					new Class[] {Query.class, List.class, Class.class},
+					new Object[] {query, foundDocuments, documentClass});
 		}
 	}
+	
 	public <D extends Document> void callBeforeFindOne(Query query, Class<D> documentClass) {
-		for (DocumentSelectListener listener : selectListeners) {
-			listener.beforeFindOne(query, documentClass);
+		for (Object listenerDef : selectListenerList) {
+			invokeListenerMethod(
+					listenerDef, 
+					"beforeFindOne", 
+					new Class[] {Query.class, Class.class},
+					new Object[] {query, documentClass});
 		}
 	}
 	
 	public <D extends Document> void callAfterFindOne(Query query, D foundDocument, Class<D> documentClass) {
-		for (DocumentSelectListener listener : selectListeners) {
-			listener.afterFindOne(query, foundDocument, documentClass);
+		for (Object listenerDef : selectListenerList) {
+			invokeListenerMethod(
+					listenerDef, 
+					"afterFind", 
+					new Class[] {Query.class, Document.class, Class.class},
+					new Object[] {query, foundDocument, documentClass});
 		}
 	}
 	
 	public void callBeforeInsert(Document document) {
-		for (DocumentRegisterListener listener : registerListeners) {
-			listener.beforeInsert(document);
+		for (Object listenerDef : registerListenerList) {
+			invokeListenerMethod(
+					listenerDef, 
+					"beforeInsert", 
+					new Class[] {Document.class},
+					new Object[] {document});
 		}
 	}
 	public void callAfterInsert(Document document) {
-		for (DocumentRegisterListener listener : registerListeners) {
-			listener.afterInsert(document);
+		for (Object listenerDef : registerListenerList) {
+			invokeListenerMethod(
+					listenerDef, 
+					"afterInsert", 
+					new Class[] {Document.class},
+					new Object[] {document});
 		}
 	}
 	public void callBeforeUpdate(Query query, Document before, Document after) {
-		for (DocumentRegisterListener listener : registerListeners) {
-			listener.beforeUpdate(query, before, after);
+		for (Object listenerDef : registerListenerList) {
+			invokeListenerMethod(
+					listenerDef, 
+					"beforeUpdate", 
+					new Class[] {Query.class, Document.class, Document.class},
+					new Object[] {query, before, after});
 		}
 	}
 	public void callAfterUpdate(Query query, Document after) {
-		for (DocumentRegisterListener listener : registerListeners) {
-			listener.afterUpdate(query, after);
+		for (Object listenerDef : registerListenerList) {
+			invokeListenerMethod(
+					listenerDef, 
+					"afterUpdate", 
+					new Class[] {Query.class, Document.class},
+					new Object[] {query, after});
 		}
 	}
 	public void callBeforeDelete(Query query, Document document){
-		for (DocumentRegisterListener listener : registerListeners) {
-			listener.beforeDelete(query, document);
+		for (Object listenerDef : registerListenerList) {
+			invokeListenerMethod(
+					listenerDef, 
+					"beforeDelete", 
+					new Class[] {Query.class, Document.class},
+					new Object[] {query, document});
 		}
 	}
 	public void callAfterDelete(Query query, Document document) {
-		for (DocumentRegisterListener listener : registerListeners) {
-			listener.afterDelete(query, document);
+		for (Object listenerDef : registerListenerList) {
+			invokeListenerMethod(
+					listenerDef, 
+					"afterDelete", 
+					new Class[] {Query.class, Document.class},
+					new Object[] {query, document});
 		}
 	}
+	
+	
 }

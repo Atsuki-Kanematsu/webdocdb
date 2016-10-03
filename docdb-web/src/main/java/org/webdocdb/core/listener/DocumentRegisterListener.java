@@ -7,7 +7,7 @@ public interface DocumentRegisterListener {
 
 	public void beforeInsert(Document document);
 	
-	public void afterInsert(Object document);
+	public void afterInsert(Document document);
 	
 	public void beforeUpdate(Query query, Document before, Document after);
 	

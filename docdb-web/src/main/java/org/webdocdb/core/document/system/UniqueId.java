@@ -4,11 +4,12 @@ import org.webdocdb.core.document.SystemDocument;
 
 public class UniqueId extends SystemDocument {
 
-	public static final int ID_TYPE_INSTANCE = 0;
-	public static final int ID_TYPE_ACCOUNT = 1;
-	public static final int ID_TYPE_GROUP = 2;
+	public static final int ID_TYPE_COLLECTION = 0;
+	public static final int ID_TYPE_INSTANCE = 1;
+	public static final int ID_TYPE_ACCOUNT_AND_GROUP = 2;
 	public static final int ID_TYPE_MESSAGE = 3;
-	public static final int ID_TYPE_DOCUMENT = 4;
+	public static final int ID_TYPE_DOCUMENT = 5;
+	
 	
 	
 	private String uniqueId;

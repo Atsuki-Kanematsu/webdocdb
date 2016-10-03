@@ -9,6 +9,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Id {
+public @interface IdGenerate {
 
+	int idType();
+	boolean reserve() default false;
+	
 }

@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.webdocdb.core.document.Document;
 import org.webdocdb.core.document.system.Collection;
+import org.webdocdb.core.document.system.UniqueId;
 import org.webdocdb.core.exception.CollectionAccessException;
 import org.webdocdb.core.transaction.TransactionThreadManager;
 
@@ -29,6 +30,9 @@ public class CollectionManager {
 
 	@Autowired
 	protected TransactionThreadManager transactionManager;
+	
+	@Autowired
+	protected IdManager idManager;
 	
 
 	private Map<String, Collection> idMap;
@@ -88,8 +92,9 @@ public class CollectionManager {
 		if (exists(collectionName)) {
 			throw new CollectionAccessException("collection already exists");
 		}
+		String uniqueId = idManager.generateAndActivate(UniqueId.ID_TYPE_COLLECTION);
 		Collection collection = new Collection();
-		collection.setCollectionId(collectionName);
+		collection.setCollectionId(uniqueId);
 		collection.setInstanceId(transactionManager.getInstanceId());
 		collection.setCollectionType(collectionType);
 		collection.setCreatorId(transactionManager.getAccountId());

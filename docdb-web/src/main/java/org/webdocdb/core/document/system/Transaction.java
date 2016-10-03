@@ -4,11 +4,11 @@ import java.util.Date;
 import java.util.Set;
 
 import org.webdocdb.core.document.SystemDocument;
-import org.webdocdb.core.document.annotation.Id;
+import org.webdocdb.core.document.annotation.Unique;
 
 public class Transaction extends SystemDocument {
 
-	@Id
+	@Unique
 	private String transactionId;
 	private String transactorId;
 	private Date beginDatetime;

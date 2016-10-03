@@ -1,6 +1,5 @@
 package org.webdocdb.core.service;
 
-
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -15,7 +14,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.webdocdb.core.listener.DocumentListenerFactory;
 import org.webdocdb.core.manager.CollectionManager;
-import org.webdocdb.core.service.system.IdService;
 import org.webdocdb.core.transaction.TransactionThreadManager;
 import org.webdocdb.core.util.StringUtil;
 
@@ -25,7 +23,7 @@ import com.mongodb.DBObject;
 import org.webdocdb.core.document.Document;
 import org.webdocdb.core.document.SystemDocument;
 import org.webdocdb.core.document.UserDocument;
-import org.webdocdb.core.document.annotation.Id;
+import org.webdocdb.core.document.annotation.Unique;
 import org.webdocdb.core.document.system.Collection;
 
 public abstract class DocumentService<D extends Document> {
@@ -34,9 +32,6 @@ public abstract class DocumentService<D extends Document> {
 	
 	@Autowired
 	protected CollectionManager collectionManager;
-	
-	@Autowired
-	protected IdService idService;
 	
 	@Autowired
 	protected DocumentListenerFactory listenerFactory;
@@ -189,7 +184,7 @@ public abstract class DocumentService<D extends Document> {
 	protected Field getIdField() {
 		Class<D> clazz = getGenericType();
 		for (Field field : clazz.getDeclaredFields()) {
-			Id id = field.getDeclaredAnnotation(Id.class);
+			Unique id = field.getDeclaredAnnotation(Unique.class);
 			if (id == null) {
 				continue;
 			}
@@ -197,7 +192,7 @@ public abstract class DocumentService<D extends Document> {
 		}
 		return null;
 	}
-		
+	
 	protected void setTimestamp(D document, boolean isRemoved) {
 		String accountId = transactionManager.getAccountId();
 		Date date = transactionManager.getAccessDatetime();

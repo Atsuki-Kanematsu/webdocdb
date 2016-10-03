@@ -31,10 +31,15 @@ public class IdManager {
 	
 	public synchronized String generate(int idType) {
 		createDBCollection();
-		return reserveId(idType);
+		return createId(idType, Document.STATUS_RESERVED);
 	}
 	
-	public void active(String id) {
+	public synchronized String generateAndActivate(int idType) {
+		createDBCollection();
+		return createId(idType, Document.STATUS_ENABLE);
+	}
+	
+	public void activate(String id) {
 		if (!exists(id)) {
 			// TODO: throw new IdNotFoundException();
 			throw new RuntimeException("");
@@ -48,10 +53,10 @@ public class IdManager {
 		mongo.updateFirst(new Query(criteria), Update.fromDBObject(dbObject, "_id"), DB_COLLECTION_NAME);
 	}
 	
-	protected String reserveId(int idType) {
+	protected String createId(int idType, int status) {
 		String id = UUID.randomUUID().toString();
 		if (exists(id)) {
-			return reserveId(idType);
+			return createId(idType, status);
 		}
 		UniqueId uniqueId = new UniqueId();
 		uniqueId.setIdType(idType);
@@ -61,7 +66,7 @@ public class IdManager {
 		uniqueId.setCreateDatetime(transactionManager.getAccessDatetime());
 		uniqueId.setModifierId(transactionManager.getAccountId());
 		uniqueId.setModifyDatetime(transactionManager.getAccessDatetime());
-		uniqueId.setStatus(Document.STATUS_RESERVED);
+		uniqueId.setStatus(status);
 		return id;
 	}
 	
