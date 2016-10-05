@@ -5,8 +5,18 @@ import java.util.Date;
 import org.webdocdb.core.document.DocumentContent;
 import org.webdocdb.core.document.SystemDocument;
 import org.webdocdb.core.document.annotation.IdGenerate;
+import org.webdocdb.core.document.annotation.Index;
+import org.webdocdb.core.document.annotation.IndexField;
+import org.webdocdb.core.document.annotation.IndexField.IndexOrder;
+import org.webdocdb.core.document.annotation.Indexes;
 import org.webdocdb.core.document.annotation.PrimaryKey;
 
+@Indexes({
+	@Index(fields={@IndexField(name="accountId", order=IndexOrder.ASC)}, unique=true),
+	@Index(fields={@IndexField(name="loginIdId", order=IndexOrder.ASC)}),
+	@Index(fields={@IndexField(name="primaryGroupId", order=IndexOrder.ASC)}),
+	@Index(fields={@IndexField(name="secondaryGroupIds", order=IndexOrder.ASC)}),
+})
 public class Account extends SystemDocument {
 
 	@IdGenerate(idType = UniqueId.ID_TYPE_ACCOUNT_AND_GROUP)

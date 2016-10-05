@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import org.webdocdb.core.builder.IndexQueryBuilder;
 import org.webdocdb.core.document.Document;
 import org.webdocdb.core.document.system.Collection;
 import org.webdocdb.core.document.system.UniqueId;
@@ -85,7 +86,7 @@ public class CollectionManager {
 		return true;
 	}
 	
-	public Collection create(String collectionName, int collectionType) {
+	public <D extends Document> Collection create(String collectionName, int collectionType, Class<D> documentClass) {
 		if (!mongo.collectionExists("collection")) {
 			defineDBColection();
 		}
@@ -93,6 +94,7 @@ public class CollectionManager {
 			throw new CollectionAccessException("collection already exists");
 		}
 		String uniqueId = idManager.generateAndActivate(UniqueId.ID_TYPE_COLLECTION);
+		createDocumentCollection(uniqueId, documentClass);
 		Collection collection = new Collection();
 		collection.setCollectionId(uniqueId);
 		collection.setInstanceId(transactionManager.getInstanceId());
@@ -103,6 +105,8 @@ public class CollectionManager {
 		collection.setModifyDatetime(transactionManager.getAccessDatetime());
 		collection.setStatus(Document.STATUS_ENABLE);
 		mongo.save(collection, "collection");
+		idMap.put(uniqueId, collection);
+		nameMap.put(collectionName, collection);
 		return collection;
 	}
 	
@@ -135,5 +139,13 @@ public class CollectionManager {
 		DBCollection dbCol = mongo.createCollection("collection");
 		dbCol.createIndex("{collectionId : 1}, {unique : true}");
 		dbCol.createIndex("{collectionName : 1}");
+	}
+	
+	protected <D extends Document> void createDocumentCollection(String dbCollectionName, Class<D> documentClass) {
+		DBCollection dbCol = mongo.createCollection(dbCollectionName);
+		List<String> queries = IndexQueryBuilder.parseDocumentClass(documentClass);
+		for (String query : queries) {
+			dbCol.createIndex(query);
+		}
 	}
 }

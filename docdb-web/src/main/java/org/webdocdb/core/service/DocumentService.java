@@ -1,6 +1,5 @@
 package org.webdocdb.core.service;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -95,7 +94,7 @@ public abstract class DocumentService<D extends Document> {
 	protected void insert(String collectionName, int collectionType, D document) {
 		Collection collection;
 		if (!collectionManager.exists(collectionName)) {
-			collection = collectionManager.create(collectionName, collectionType);
+			collection = collectionManager.create(collectionName, collectionType, document.getClass());
 		} else {
 			collection = collectionManager.getById(collectionName);
 		}
@@ -109,7 +108,7 @@ public abstract class DocumentService<D extends Document> {
 	protected void update(String collectionName, int collectionType, D document) {
 		Collection collection;
 		if (!collectionManager.exists(collectionName)) {
-			collection = collectionManager.create(collectionName, collectionType);
+			collection = collectionManager.create(collectionName, collectionType, document.getClass());
 		} else {
 			collection = collectionManager.getById(collectionName);
 		}
@@ -136,7 +135,7 @@ public abstract class DocumentService<D extends Document> {
 	protected void delete(String collectionName, int collectionType, D document) {
 		Collection collection;
 		if (!collectionManager.exists(collectionName)) {
-			collection = collectionManager.create(collectionName, collectionType);
+			collection = collectionManager.create(collectionName, collectionType, document.getClass());
 		} else {
 			collection = collectionManager.getById(collectionName);
 		}

@@ -4,7 +4,16 @@ import java.util.Date;
 
 import org.webdocdb.core.document.DocumentContent;
 import org.webdocdb.core.document.SystemDocument;
+import org.webdocdb.core.document.annotation.Index;
+import org.webdocdb.core.document.annotation.IndexField;
+import org.webdocdb.core.document.annotation.Indexes;
+import org.webdocdb.core.document.annotation.IndexField.IndexOrder;
 
+@Indexes({
+	@Index(fields={@IndexField(name="accessToken", order=IndexOrder.ASC)}, unique=true),
+	@Index(fields={@IndexField(name="accessKey", order=IndexOrder.ASC)}),
+	@Index(fields={@IndexField(name="accountId", order=IndexOrder.ASC)}),
+})
 public class AccessToken extends SystemDocument {
 
 	private String accessToken;

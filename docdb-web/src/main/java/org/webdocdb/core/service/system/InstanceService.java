@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
-import org.webdocdb.core.document.system.Collection;
 import org.webdocdb.core.document.system.Instance;
 import org.webdocdb.core.service.SystemDocumentService;
 

@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Index {
+public @interface Indexes {
 
-	IndexField[] fields();
-	boolean unique() default false;
+	Index[] value() default {};
+	
 }

@@ -5,7 +5,6 @@ import java.util.HashSet;
 
 import org.springframework.stereotype.Service;
 import org.webdocdb.core.document.system.Account;
-import org.webdocdb.core.document.system.Collection;
 import org.webdocdb.core.document.system.Transaction;
 import org.webdocdb.core.service.SystemDocumentService;
 

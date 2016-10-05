@@ -5,13 +5,14 @@ import java.util.Set;
 
 import org.webdocdb.core.document.SystemDocument;
 import org.webdocdb.core.document.annotation.Index;
+import org.webdocdb.core.document.annotation.IndexField;
 import org.webdocdb.core.document.annotation.PrimaryKey;
 
+@Index(fields={@IndexField(name="transactorId")})
 public class Transaction extends SystemDocument {
 
 	@PrimaryKey
 	private String transactionId;
-	@Index
 	private String transactorId;
 	private Date beginDatetime;
 	private Date limitDatetime;

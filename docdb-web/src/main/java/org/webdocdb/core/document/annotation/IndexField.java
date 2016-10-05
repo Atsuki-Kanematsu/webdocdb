@@ -9,8 +9,13 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Index {
+public @interface IndexField {
 
-	IndexField[] fields();
-	boolean unique() default false;
+	public enum IndexOrder {
+		ASC,
+		DESC
+	}
+
+	String name();
+	IndexOrder order() default IndexOrder.ASC;
 }

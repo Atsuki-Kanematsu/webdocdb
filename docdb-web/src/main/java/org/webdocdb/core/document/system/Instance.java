@@ -2,8 +2,15 @@ package org.webdocdb.core.document.system;
 
 import org.webdocdb.core.document.DocumentContent;
 import org.webdocdb.core.document.SystemDocument;
+import org.webdocdb.core.document.annotation.Index;
+import org.webdocdb.core.document.annotation.IndexField;
+import org.webdocdb.core.document.annotation.Indexes;
 import org.webdocdb.core.document.annotation.PrimaryKey;
+import org.webdocdb.core.document.annotation.IndexField.IndexOrder;
 
+@Indexes({
+	@Index(fields={@IndexField(name="instanceId", order=IndexOrder.ASC)}, unique=true),
+})
 public class Instance extends SystemDocument {
 
 	@PrimaryKey

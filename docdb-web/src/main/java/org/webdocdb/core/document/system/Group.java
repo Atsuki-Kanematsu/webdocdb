@@ -2,8 +2,17 @@ package org.webdocdb.core.document.system;
 
 import org.webdocdb.core.document.DocumentContent;
 import org.webdocdb.core.document.SystemDocument;
+import org.webdocdb.core.document.annotation.Index;
+import org.webdocdb.core.document.annotation.IndexField;
+import org.webdocdb.core.document.annotation.Indexes;
 import org.webdocdb.core.document.annotation.PrimaryKey;
+import org.webdocdb.core.document.annotation.IndexField.IndexOrder;
 
+@Indexes({
+	@Index(fields={@IndexField(name="groupId", order=IndexOrder.ASC)}, unique=true),
+	@Index(fields={@IndexField(name="groupName", order=IndexOrder.ASC)}),
+	@Index(fields={@IndexField(name="groupType", order=IndexOrder.ASC)}),
+})
 public class Group extends SystemDocument {
 
 	public static final int GROUP_TYPE_USER = 0;
