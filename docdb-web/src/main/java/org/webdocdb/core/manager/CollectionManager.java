@@ -25,6 +25,7 @@ import com.mongodb.DBCollection;
 @Scope("singleton")
 public class CollectionManager {
 
+	protected static final String DB_COLLECTION_NAME = "#sysCollection";
 	
 	@Autowired
 	protected MongoOperations mongo;
@@ -43,7 +44,7 @@ public class CollectionManager {
 	public void load() {
 		idMap = new HashMap<>();
 		nameMap = new HashMap<>();
-		List<Collection> collections = mongo.findAll(Collection.class, "collection");
+		List<Collection> collections = mongo.findAll(Collection.class, DB_COLLECTION_NAME);
 		for (Collection collection : collections) {
 			idMap.put(collection.getCollectionId(), collection);
 			nameMap.put(collection.getCollectionName(), collection);
@@ -87,7 +88,7 @@ public class CollectionManager {
 	}
 	
 	public <D extends Document> Collection create(String collectionName, int collectionType, Class<D> documentClass) {
-		if (!mongo.collectionExists("collection")) {
+		if (!mongo.collectionExists(DB_COLLECTION_NAME)) {
 			defineDBColection();
 		}
 		if (exists(collectionName)) {
@@ -97,6 +98,7 @@ public class CollectionManager {
 		createDocumentCollection(uniqueId, documentClass);
 		Collection collection = new Collection();
 		collection.setCollectionId(uniqueId);
+		collection.setCollectionName(collectionName);
 		collection.setInstanceId(transactionManager.getInstanceId());
 		collection.setCollectionType(collectionType);
 		collection.setCreatorId(transactionManager.getAccountId());
@@ -104,48 +106,43 @@ public class CollectionManager {
 		collection.setModifierId(transactionManager.getAccountId());
 		collection.setModifyDatetime(transactionManager.getAccessDatetime());
 		collection.setStatus(Document.STATUS_ENABLE);
-		mongo.save(collection, "collection");
+		mongo.save(collection, DB_COLLECTION_NAME);
 		idMap.put(uniqueId, collection);
 		nameMap.put(collectionName, collection);
 		return collection;
 	}
 	
 	protected Collection findById(String collectionId) {
-		if (!mongo.collectionExists("collection")) {
+		if (!mongo.collectionExists(DB_COLLECTION_NAME)) {
 			return null;
 		}
 		Criteria criteria = Criteria.where("collectionId").is(collectionId);
 		Query query = new Query(criteria);
-		return mongo.findOne(query, Collection.class, "collection");
+		return mongo.findOne(query, Collection.class, DB_COLLECTION_NAME);
 	}
 	
 	protected Collection findByName(String collectionName) {
-		if (!mongo.collectionExists("collection")) {
+		if (!mongo.collectionExists(DB_COLLECTION_NAME)) {
 			return null;
 		}
 		Criteria criteria = Criteria.where("collectionName").is(collectionName);
 		Query query = new Query(criteria);
-		return mongo.findOne(query, Collection.class, "collection");
-	}
-	
-	public void remove(String collectionId) {
-		Collection collection = findById(collectionId);
-		idMap.remove(collectionId);
-		mongo.remove(collection, "collection");
-		mongo.dropCollection(collectionId);
+		return mongo.findOne(query, Collection.class, DB_COLLECTION_NAME);
 	}
 	
 	protected void defineDBColection() {
-		DBCollection dbCol = mongo.createCollection("collection");
-		dbCol.createIndex("{collectionId : 1}, {unique : true}");
-		dbCol.createIndex("{collectionName : 1}");
+		DBCollection dbCol = mongo.createCollection(DB_COLLECTION_NAME);
+		List<IndexQueryBuilder> queries = IndexQueryBuilder.parseDocumentClass(Collection.class);
+		for (IndexQueryBuilder query : queries) {
+			dbCol.createIndex(query.getKeys(), query.getOption());
+		}
 	}
 	
 	protected <D extends Document> void createDocumentCollection(String dbCollectionName, Class<D> documentClass) {
 		DBCollection dbCol = mongo.createCollection(dbCollectionName);
-		List<String> queries = IndexQueryBuilder.parseDocumentClass(documentClass);
-		for (String query : queries) {
-			dbCol.createIndex(query);
+		List<IndexQueryBuilder> queries = IndexQueryBuilder.parseDocumentClass(documentClass);
+		for (IndexQueryBuilder query : queries) {
+			dbCol.createIndex(query.getKeys(), query.getOption());
 		}
 	}
 }

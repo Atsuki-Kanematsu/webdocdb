@@ -17,11 +17,11 @@ import org.webdocdb.generator.step.instance.InstanceNameQuestion;
 
 @SpringBootApplication(exclude = {EmbeddedServletContainerAutoConfiguration.class, WebMvcAutoConfiguration.class})
 @ComponentScan({"org.webdocdb.generator", "org.webdocdb.core"})
-public class Generator {
+public class InstanceGenerator {
 
 	public static void main(String[] args) throws IOException {
 		try {
-			ApplicationContext context = SpringApplication.run(Generator.class, new String[0]);
+			ApplicationContext context = SpringApplication.run(InstanceGenerator.class, new String[0]);
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 			Question question = context.getBean(InstanceNameQuestion.class);

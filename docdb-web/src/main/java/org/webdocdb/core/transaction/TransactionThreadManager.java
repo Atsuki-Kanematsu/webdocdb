@@ -5,8 +5,8 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import org.webdocdb.core.document.system.Account;
-import org.webdocdb.core.service.system.TransactionService;
+import org.webdocdb.core.document.management.Account;
+import org.webdocdb.core.service.management.TransactionService;
 import org.webdocdb.core.util.StringUtil;
 
 @Service
@@ -18,9 +18,9 @@ public class TransactionThreadManager {
 	@Autowired
 	protected TransactionService transactionService;
 	
-	public void begin(Account account, Date accessDatetime) {
+	public void begin(Account account) {
 		String transactionId = transactionService.begin(account);
-		in(transactionId, account, accessDatetime);
+		in(transactionId, account);
 	}
 	
 	public void commit() {
@@ -33,11 +33,19 @@ public class TransactionThreadManager {
 		out();
 	}
 	
-	public void in(Account account, Date accessDatetime) {
-		in(null, account, accessDatetime);
+	public void in(String accountId) {
+		in(null, null, accountId, new Date());
+	}
+
+	public void in(Account account) {
+		in(null, account.getInstanceId(), account.getAccountId(), new Date());
 	}
 		
-	public void in(String transactionId, Account account, Date accessDatetime) {
+	public void in(String transactionId, Account account) {
+		in(transactionId, account.getInstanceId(), account.getAccountId(), new Date());
+	}
+		
+	public void in(String transactionId, String instanceId, String accountId, Date accessDatetime) {
 		TransactionEntity te = transactionThreadLocal.get();
 		if (te == null) {
 			te = new TransactionEntity();
@@ -45,10 +53,8 @@ public class TransactionThreadManager {
 		if (!StringUtil.isEmpty(transactionId)) {
 			te.setTransactionId(transactionId);
 		}
-		if (account != null) {
-			te.setInstanceId(account.getInstanceId());
-			te.setAccountId(account.getAccountId());
-		}
+		te.setInstanceId(instanceId);
+		te.setAccountId(accountId);
 		te.setAccessDatetime(accessDatetime);
 		transactionThreadLocal.set(te);
 	}

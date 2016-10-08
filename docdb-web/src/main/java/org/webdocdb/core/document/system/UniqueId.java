@@ -1,8 +1,15 @@
 package org.webdocdb.core.document.system;
 
-import org.webdocdb.core.document.SystemDocument;
+import org.webdocdb.core.document.ManagementDocument;
+import org.webdocdb.core.document.annotation.Index;
+import org.webdocdb.core.document.annotation.IndexField;
+import org.webdocdb.core.document.annotation.Indexes;
 
-public class UniqueId extends SystemDocument {
+@Indexes({
+	@Index(fields={@IndexField(name="uniqueId")}, unique=true),
+	@Index(fields={@IndexField(name="idType")}),
+})
+public class UniqueId extends ManagementDocument {
 
 	public static final int ID_TYPE_COLLECTION = 0;
 	public static final int ID_TYPE_INSTANCE = 1;

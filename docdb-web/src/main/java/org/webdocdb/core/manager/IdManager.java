@@ -1,5 +1,6 @@
 package org.webdocdb.core.manager;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import org.webdocdb.core.builder.IndexQueryBuilder;
 import org.webdocdb.core.document.Document;
 import org.webdocdb.core.document.system.UniqueId;
 import org.webdocdb.core.transaction.TransactionThreadManager;
@@ -21,7 +23,7 @@ import com.mongodb.DBObject;
 @Scope("singleton")
 public class IdManager {
 
-	protected static final String DB_COLLECTION_NAME = "uniqueId";
+	protected static final String DB_COLLECTION_NAME = "#sysUniqueId";
 	
 	@Autowired
 	protected MongoOperations mongo;
@@ -60,24 +62,30 @@ public class IdManager {
 		}
 		UniqueId uniqueId = new UniqueId();
 		uniqueId.setIdType(idType);
-		uniqueId.setInstanceId(transactionManager.getInstanceId());
+		if (idType == UniqueId.ID_TYPE_INSTANCE) {
+			uniqueId.setInstanceId(id);
+		}
 		uniqueId.setUniqueId(id);
 		uniqueId.setCreatorId(transactionManager.getAccountId());
 		uniqueId.setCreateDatetime(transactionManager.getAccessDatetime());
 		uniqueId.setModifierId(transactionManager.getAccountId());
 		uniqueId.setModifyDatetime(transactionManager.getAccessDatetime());
 		uniqueId.setStatus(status);
+		mongo.save(uniqueId, DB_COLLECTION_NAME);
 		return id;
 	}
 	
 	protected void createDBCollection() {
-		DBCollection dbCol = mongo.getCollection(DB_COLLECTION_NAME);
-		if (dbCol != null) {
-			return;
+		DBCollection dbCol;
+		if (!mongo.collectionExists(DB_COLLECTION_NAME)) {
+			dbCol = mongo.createCollection(DB_COLLECTION_NAME);
+			List<IndexQueryBuilder> queries = IndexQueryBuilder.parseDocumentClass(UniqueId.class);
+			for (IndexQueryBuilder query : queries) {
+				dbCol.createIndex(query.getKeys(), query.getOption());
+			}
+		} else {
+			dbCol = mongo.getCollection(DB_COLLECTION_NAME);
 		}
-		dbCol = mongo.createCollection("uniqueId");
-		dbCol.createIndex("{uniqueId : 1}, {unique : true}");
-		dbCol.createIndex("{idType : 1}");
 	}
 	
 	protected boolean exists(String id) {

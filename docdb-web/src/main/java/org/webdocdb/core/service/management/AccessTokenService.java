@@ -1,4 +1,4 @@
-package org.webdocdb.core.service.system;
+package org.webdocdb.core.service.management;
 
 import org.springframework.stereotype.Component;
 

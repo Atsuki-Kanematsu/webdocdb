@@ -1,10 +1,10 @@
-package org.webdocdb.core.service.system;
+package org.webdocdb.core.service.management;
 
 import java.util.Date;
 import java.util.HashSet;
 
 import org.springframework.stereotype.Service;
-import org.webdocdb.core.document.system.Account;
+import org.webdocdb.core.document.management.Account;
 import org.webdocdb.core.document.system.Transaction;
 import org.webdocdb.core.service.SystemDocumentService;
 

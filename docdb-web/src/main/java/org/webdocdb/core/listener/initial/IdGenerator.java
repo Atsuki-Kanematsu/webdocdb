@@ -4,12 +4,16 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Service;
 import org.webdocdb.core.document.Document;
 import org.webdocdb.core.document.annotation.IdGenerate;
 import org.webdocdb.core.listener.DocumentRegisterListener;
 import org.webdocdb.core.manager.IdManager;
 
+@Service
+@Scope("singleton")
 public class IdGenerator implements DocumentRegisterListener {
 	
 	@Autowired

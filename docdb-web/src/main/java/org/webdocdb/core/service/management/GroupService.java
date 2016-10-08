@@ -1,8 +1,8 @@
-package org.webdocdb.core.service.system;
+package org.webdocdb.core.service.management;
 
 import org.webdocdb.core.document.Document;
 import org.webdocdb.core.document.DocumentContent;
-import org.webdocdb.core.document.system.Group;
+import org.webdocdb.core.document.management.Group;
 import org.webdocdb.core.service.SystemDocumentService;
 
 public class GroupService extends SystemDocumentService<Group> {

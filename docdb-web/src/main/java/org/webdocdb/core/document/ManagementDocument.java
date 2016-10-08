@@ -2,9 +2,9 @@ package org.webdocdb.core.document;
 
 import org.springframework.data.mongodb.core.mapping.Field;
 
-public abstract class SystemDocument extends AbstractDocument {
+public abstract class ManagementDocument extends AbstractDocument {
 
-	@Field
+	@Field("instanceId")
 	private String instanceId;
 
 	public String getInstanceId() {

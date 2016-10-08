@@ -12,8 +12,15 @@ import java.lang.annotation.Target;
 public @interface IndexField {
 
 	public enum IndexOrder {
-		ASC,
-		DESC
+		ASC(1),
+		DESC(-1);
+		private int value;
+		private IndexOrder(int value) {
+			this.value = value;
+		}
+		public int intValue() {
+			return value;
+		}
 	}
 
 	String name();

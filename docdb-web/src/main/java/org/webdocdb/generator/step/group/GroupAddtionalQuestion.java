@@ -2,7 +2,7 @@ package org.webdocdb.generator.step.group;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.webdocdb.core.document.system.Group;
+import org.webdocdb.core.document.management.Group;
 import org.webdocdb.core.util.ArrayUtil;
 import org.webdocdb.core.util.StringUtil;
 import org.webdocdb.generator.GenerationParameters;

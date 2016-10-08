@@ -2,8 +2,11 @@ package org.webdocdb.core.document;
 
 import java.util.Date;
 
+import org.springframework.data.mongodb.core.mapping.Field;
+
 public abstract class UserDocument extends AbstractDocument implements Document {
 
+	@Field("instanceId")
 	private String instanceId;
 	private String creatorId;
 	private String modifierId;

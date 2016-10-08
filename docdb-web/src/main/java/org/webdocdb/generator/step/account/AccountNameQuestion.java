@@ -2,7 +2,7 @@ package org.webdocdb.generator.step.account;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.webdocdb.core.document.system.Account;
+import org.webdocdb.core.document.management.Account;
 import org.webdocdb.core.util.StringUtil;
 import org.webdocdb.generator.GenerationParameters;
 import org.webdocdb.generator.step.Question;

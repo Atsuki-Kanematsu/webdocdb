@@ -3,13 +3,13 @@ package org.webdocdb.core.document.system;
 import java.util.Date;
 import java.util.Set;
 
-import org.webdocdb.core.document.SystemDocument;
+import org.webdocdb.core.document.ManagementDocument;
 import org.webdocdb.core.document.annotation.Index;
 import org.webdocdb.core.document.annotation.IndexField;
 import org.webdocdb.core.document.annotation.PrimaryKey;
 
 @Index(fields={@IndexField(name="transactorId")})
-public class Transaction extends SystemDocument {
+public class Transaction extends ManagementDocument {
 
 	@PrimaryKey
 	private String transactionId;

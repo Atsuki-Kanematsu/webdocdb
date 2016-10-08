@@ -1,7 +1,7 @@
-package org.webdocdb.core.service.system;
+package org.webdocdb.core.service.management;
 
 import org.webdocdb.core.document.Document;
-import org.webdocdb.core.document.system.Account;
+import org.webdocdb.core.document.management.Account;
 import org.webdocdb.core.service.SystemDocumentService;
 
 public class AccountService extends SystemDocumentService<Account> {

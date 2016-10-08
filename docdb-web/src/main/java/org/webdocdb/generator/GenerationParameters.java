@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.webdocdb.core.document.system.Account;
-import org.webdocdb.core.document.system.Group;
+import org.webdocdb.core.document.management.Account;
+import org.webdocdb.core.document.management.Group;
+import org.webdocdb.core.document.management.Message;
 import org.webdocdb.core.document.system.Instance;
-import org.webdocdb.core.document.system.Message;
 
 @Component
 @Scope("singleton")

@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.webdocdb.core.document.system.Account;
+import org.webdocdb.core.document.management.Account;
 import org.webdocdb.core.util.ArrayUtil;
 import org.webdocdb.core.util.HashUtil;
 import org.webdocdb.core.util.HashUtil.HashAlgorithm;

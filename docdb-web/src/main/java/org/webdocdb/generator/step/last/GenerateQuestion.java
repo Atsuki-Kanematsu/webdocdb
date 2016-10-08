@@ -1,12 +1,8 @@
 package org.webdocdb.generator.step.last;
 
-import java.util.Date;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.webdocdb.core.document.system.Account;
-import org.webdocdb.core.service.system.InstanceService;
+import org.webdocdb.core.manager.InstanceManager;
 import org.webdocdb.core.transaction.TransactionThreadManager;
 import org.webdocdb.core.util.ArrayUtil;
 import org.webdocdb.core.util.StringUtil;
@@ -22,7 +18,7 @@ public class GenerateQuestion implements Question {
 	private GenerationParameters params;
 	
 	@Autowired
-	private InstanceService InstanceService;
+	private InstanceManager instanceManager;
 	
 	@Autowired
 	private TransactionThreadManager transactionManager;
@@ -45,17 +41,9 @@ public class GenerateQuestion implements Question {
 
 	@Override
 	public void process(String value) {
-		// instanceIdの生成
-		String instanceId = UUID.randomUUID().toString();
-		
 		// タイムスタンプの設定
-		Account account = new Account();
-		account.setAccountId("generator");
-		account.setInstanceId(instanceId);
-		transactionManager.in(account, new Date());
-		
-		// インスタンスの生成
-		InstanceService.create(params.getInstance());
+		transactionManager.in("generator");
+		instanceManager.create(params.getInstance());
 	}
 
 	@Override

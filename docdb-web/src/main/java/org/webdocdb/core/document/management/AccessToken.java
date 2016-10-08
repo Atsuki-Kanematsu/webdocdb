@@ -1,9 +1,9 @@
-package org.webdocdb.core.document.system;
+package org.webdocdb.core.document.management;
 
 import java.util.Date;
 
 import org.webdocdb.core.document.DocumentContent;
-import org.webdocdb.core.document.SystemDocument;
+import org.webdocdb.core.document.ManagementDocument;
 import org.webdocdb.core.document.annotation.Index;
 import org.webdocdb.core.document.annotation.IndexField;
 import org.webdocdb.core.document.annotation.Indexes;
@@ -14,7 +14,7 @@ import org.webdocdb.core.document.annotation.IndexField.IndexOrder;
 	@Index(fields={@IndexField(name="accessKey", order=IndexOrder.ASC)}),
 	@Index(fields={@IndexField(name="accountId", order=IndexOrder.ASC)}),
 })
-public class AccessToken extends SystemDocument {
+public class AccessToken extends ManagementDocument {
 
 	private String accessToken;
 	private String accessKey;

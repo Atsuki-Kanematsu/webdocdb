@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.webdocdb.core.document.DocumentContent;
-import org.webdocdb.core.document.system.Group;
+import org.webdocdb.core.document.management.Group;
 import org.webdocdb.core.util.StringUtil;
 import org.webdocdb.generator.GenerationParameters;
 import org.webdocdb.generator.step.Question;

@@ -2,8 +2,7 @@ package org.webdocdb.generator.step.instance;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.webdocdb.core.document.system.Instance;
-import org.webdocdb.core.service.system.InstanceService;
+import org.webdocdb.core.manager.InstanceManager;
 import org.webdocdb.core.util.StringUtil;
 import org.webdocdb.generator.GenerationParameters;
 import org.webdocdb.generator.step.Question;
@@ -12,7 +11,7 @@ import org.webdocdb.generator.step.Question;
 public class InstanceNameQuestion implements Question {
 
 	@Autowired
-	protected InstanceService service;
+	protected InstanceManager instanceManager;
 	
 	@Autowired
 	private GenerationParameters params;
@@ -25,8 +24,7 @@ public class InstanceNameQuestion implements Question {
 		if (StringUtil.isEmpty(value)) {
 			return new ValidationResult(false, getText() + "を指定してください");
 		}
-		Instance instance = service.findByName(value);
-		if (instance != null) {
+		if (instanceManager.exists(value)) {
 			return new ValidationResult(false, "既に同じ名前で作成されています");
 		}
 		return new ValidationResult(true);

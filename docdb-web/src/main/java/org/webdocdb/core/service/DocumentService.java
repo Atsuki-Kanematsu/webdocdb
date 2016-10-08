@@ -21,7 +21,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 import org.webdocdb.core.document.Document;
-import org.webdocdb.core.document.SystemDocument;
+import org.webdocdb.core.document.ManagementDocument;
 import org.webdocdb.core.document.UserDocument;
 import org.webdocdb.core.document.annotation.PrimaryKey;
 import org.webdocdb.core.document.system.Collection;
@@ -200,14 +200,14 @@ public abstract class DocumentService<D extends Document> {
 		if (StringUtil.isEmpty(accountId)) {
 			accountId = "unknown";
 		}
-		if (!StringUtil.isEmpty(instanceId)) {
+		if (StringUtil.isEmpty(instanceId)) {
 			instanceId = "unknown";
 		}
 		if (date == null) {
 			date = new Date();
 		}
-		if (document instanceof SystemDocument) {
-			((SystemDocument) document).setInstanceId(instanceId);
+		if (document instanceof ManagementDocument) {
+			((ManagementDocument) document).setInstanceId(instanceId);
 		}
 		if (document instanceof UserDocument) {
 			((UserDocument) document).setInstanceId(instanceId);

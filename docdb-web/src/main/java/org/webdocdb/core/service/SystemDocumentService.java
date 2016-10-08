@@ -3,10 +3,10 @@ package org.webdocdb.core.service;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.query.Query;
-import org.webdocdb.core.document.SystemDocument;
+import org.webdocdb.core.document.ManagementDocument;
 import org.webdocdb.core.document.system.Collection;
 
-public abstract class SystemDocumentService<D extends SystemDocument> extends DocumentService<D> {
+public abstract class SystemDocumentService<D extends ManagementDocument> extends DocumentService<D> {
 
 	protected D findById(String id) {
 		Class<D> clazz = getGenericType();
