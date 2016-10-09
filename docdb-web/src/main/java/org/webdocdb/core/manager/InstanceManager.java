@@ -56,6 +56,11 @@ public class InstanceManager {
 	public void create(Instance instance) {
 		createDBCollection();
 		instance.setInstanceId(idManager.generateAndActivate(UniqueId.ID_TYPE_INSTANCE));
+		instance.setCreateDatetime(transactionManager.getAccessDatetime());
+		instance.setCreatorId(transactionManager.getAccountId());
+		instance.setModifyDatetime(transactionManager.getAccessDatetime());
+		instance.setModifierId(transactionManager.getAccountId());
+		instance.setStatus(Document.STATUS_ENABLE);
 		mongo.insert(instance, DB_COLLECTION_NAME);
 		for (Class<? extends Document> clazz : documentClasses) {
 			collectionManager.create(clazz.getSimpleName(), Collection.SYSTEM_COLLECTION, clazz);
@@ -68,9 +73,20 @@ public class InstanceManager {
 		this.create(instance);
 		return instance;
 	}
+
+	public Instance getInstance(String instanceName) {
+		Query query = new Query(Criteria.where("instanceName").is(instanceName));
+		return mongo.findOne(query, Instance.class, DB_COLLECTION_NAME);
+	}
 	
 	public void drop(String instanceName) {
-		
+		Instance instance = getInstance(instanceName);
+		String instanceId = instance.getInstanceId();
+		List<UniqueId> colIdList = idManager.findCollectionIdByInstanceId(instanceId);
+		for (UniqueId colId : colIdList) {
+			collectionManager.remove(colId.getUniqueId());
+		}
+		idManager.removeByInstanceId(instanceId);
 	}
 	
 	public boolean exists(String instanceName) {

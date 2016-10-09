@@ -104,4 +104,15 @@ public class IdManager {
 		return uniqueId;
 	}
 	
+	protected List<UniqueId> findCollectionIdByInstanceId(String instanceId) {
+		Criteria criteria = Criteria.where("instanceId").is(instanceId);
+		Query query = new Query(criteria);
+		List<UniqueId> results = mongo.find(query, UniqueId.class, DB_COLLECTION_NAME);
+		return results;
+	}
+	
+	protected void removeByInstanceId(String instanceId) {
+		Query query = new Query(Criteria.where("instanceId").is(instanceId));
+		mongo.remove(query, UniqueId.class, DB_COLLECTION_NAME);
+	}
 }

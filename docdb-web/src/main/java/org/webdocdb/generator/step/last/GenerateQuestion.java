@@ -7,6 +7,7 @@ import org.webdocdb.core.transaction.TransactionThreadManager;
 import org.webdocdb.core.util.ArrayUtil;
 import org.webdocdb.core.util.StringUtil;
 import org.webdocdb.generator.GenerationParameters;
+import org.webdocdb.generator.InstanceGenerator;
 import org.webdocdb.generator.step.Question;
 
 @Component
@@ -42,7 +43,9 @@ public class GenerateQuestion implements Question {
 	@Override
 	public void process(String value) {
 		// タイムスタンプの設定
-		transactionManager.in("generator");
+		String accountId = InstanceGenerator.class.getSimpleName();
+		accountId = StringUtil.toLowerCamel(accountId);
+		transactionManager.in(accountId);
 		instanceManager.create(params.getInstance());
 	}
 

@@ -112,6 +112,9 @@ public class CollectionManager {
 		return collection;
 	}
 	
+	public void remove(String collectionId) {
+		
+	}
 	protected Collection findById(String collectionId) {
 		if (!mongo.collectionExists(DB_COLLECTION_NAME)) {
 			return null;
