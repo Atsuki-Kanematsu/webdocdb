@@ -1,4 +1,4 @@
-package org.webdocdb.generator;
+package org.webdocdb.cleaner;
 
 import java.io.IOException;
 
@@ -12,11 +12,11 @@ import org.webdocdb.core.manager.InstanceManager;
 
 @SpringBootApplication(exclude = {EmbeddedServletContainerAutoConfiguration.class, WebMvcAutoConfiguration.class})
 @ComponentScan({"org.webdocdb.generator", "org.webdocdb.core"})
-public class InstanceImporter {
+public class InstanceInitializer {
 
 	public static void main(String[] args) throws IOException {
 		try {
-			ApplicationContext context = SpringApplication.run(InstanceImporter.class, new String[0]);
+			ApplicationContext context = SpringApplication.run(InstanceInitializer.class, new String[0]);
 			InstanceManager instanceManager = context.getBean(InstanceManager.class);
 			instanceManager.drop(args[0]);
 		} catch (Exception ex) {

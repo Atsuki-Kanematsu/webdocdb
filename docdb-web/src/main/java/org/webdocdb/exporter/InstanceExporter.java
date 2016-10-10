@@ -1,4 +1,4 @@
-package org.webdocdb.generator;
+package org.webdocdb.exporter;
 
 import java.io.IOException;
 
