@@ -9,9 +9,12 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface DateType {
+public @interface Then {
 
-	String format();
-	Then then() default @Then(field = "");
-
+	String field();
+	String eq() default "";
+	String ne() default "";
+	String[] in() default {};
+	String[] notIn() default{};
+	
 }

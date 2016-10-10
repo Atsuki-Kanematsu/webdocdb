@@ -11,4 +11,5 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Required {
 
+	Then then() default @Then(field = "");
 }

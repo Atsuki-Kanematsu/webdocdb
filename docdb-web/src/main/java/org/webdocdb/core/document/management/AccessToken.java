@@ -7,6 +7,7 @@ import org.webdocdb.core.document.ManagementDocument;
 import org.webdocdb.core.document.annotation.Index;
 import org.webdocdb.core.document.annotation.IndexField;
 import org.webdocdb.core.document.annotation.Indexes;
+import org.webdocdb.core.document.annotation.validation.Required;
 import org.webdocdb.core.document.annotation.IndexField.IndexOrder;
 
 @Indexes({
@@ -16,10 +17,15 @@ import org.webdocdb.core.document.annotation.IndexField.IndexOrder;
 })
 public class AccessToken extends ManagementDocument {
 
+	@Required
 	private String accessToken;
+	@Required
 	private String accessKey;
+	@Required
 	private String accountId;
+	@Required
 	private Date firstAccessDatetime;
+	@Required
 	private Date lastAccessDatetime;
 	private Date expireDatetime;
 	private DocumentContent tokenMeta;

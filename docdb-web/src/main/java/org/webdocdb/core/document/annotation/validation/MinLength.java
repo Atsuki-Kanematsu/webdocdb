@@ -12,5 +12,6 @@ import java.lang.annotation.Target;
 public @interface MinLength {
 
 	int value();
-	
+	Then then() default @Then(field = "");
+
 }

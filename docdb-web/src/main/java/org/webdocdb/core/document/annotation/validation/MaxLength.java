@@ -12,5 +12,6 @@ import java.lang.annotation.Target;
 public @interface MaxLength {
 
 	int value();
-	
+	Then then() default @Then(field = "");
+
 }

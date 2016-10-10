@@ -9,9 +9,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface DateType {
+public @interface RegularExpression {
 
-	String format();
+	String pattern();
+	
 	Then then() default @Then(field = "");
-
 }
