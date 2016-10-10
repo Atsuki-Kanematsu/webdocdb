@@ -8,17 +8,19 @@ import org.springframework.boot.autoconfigure.web.EmbeddedServletContainerAutoCo
 import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.webdocdb.core.manager.InstanceManager;
+import org.springframework.data.mongodb.core.MongoOperations;
 
 @SpringBootApplication(exclude = {EmbeddedServletContainerAutoConfiguration.class, WebMvcAutoConfiguration.class})
 @ComponentScan({"org.webdocdb.generator", "org.webdocdb.core"})
-public class InstanceInitializer {
+public class DBCleaner {
 
 	public static void main(String[] args) throws IOException {
 		try {
-			ApplicationContext context = SpringApplication.run(InstanceInitializer.class, new String[0]);
-			InstanceManager instanceManager = context.getBean(InstanceManager.class);
-			instanceManager.drop(args[0]);
+			ApplicationContext context = SpringApplication.run(DBCleaner.class, new String[0]);
+			MongoOperations mongo = context.getBean(MongoOperations.class);
+			for (String name : mongo.getCollectionNames()) {
+				mongo.dropCollection(name);
+			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {

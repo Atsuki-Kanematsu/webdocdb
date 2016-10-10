@@ -94,6 +94,7 @@ public class InstanceManager {
 			mongo.remove(query, clazz, collection.getCollectionId());
 		}
 		idManager.removeByInstanceId(instanceId);
+		mongo.remove(query, Instance.class, DB_COLLECTION_NAME);
 	}
 	
 	public boolean exists(String instanceName) {
