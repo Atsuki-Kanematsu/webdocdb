@@ -21,7 +21,7 @@ import org.webdocdb.core.document.annotation.PrimaryKey;
 })
 public class Account extends ManagementDocument {
 
-	@IdGenerate(idType = UniqueId.ID_TYPE_ACCOUNT_AND_GROUP)
+	@IdGenerate(idType = UniqueId.ID_TYPE_ACCOUNT)
 	@PrimaryKey
 	private String accountId;
 	private String accountName;

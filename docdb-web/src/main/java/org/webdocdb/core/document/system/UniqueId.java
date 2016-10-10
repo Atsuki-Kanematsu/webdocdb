@@ -11,11 +11,13 @@ import org.webdocdb.core.document.annotation.Indexes;
 })
 public class UniqueId extends AbstractDocument {
 
-	public static final int ID_TYPE_COLLECTION = 0;
-	public static final int ID_TYPE_INSTANCE = 1;
-	public static final int ID_TYPE_ACCOUNT_AND_GROUP = 2;
-	public static final int ID_TYPE_MESSAGE = 3;
-	public static final int ID_TYPE_DOCUMENT = 5;
+	public static final int ID_TYPE_COLLECTION = 1;
+	public static final int ID_TYPE_INSTANCE = 2;
+	public static final int ID_TYPE_ACCOUNT = 101;
+	public static final int ID_TYPE_GROUP = 102;
+	public static final int ID_TYPE_LANGUAGE = 103;
+	public static final int ID_TYPE_MESSAGE = 104;
+	public static final int ID_TYPE_DOCUMENT = 201;
 	
 	private String uniqueId;
 	private String instanceId;

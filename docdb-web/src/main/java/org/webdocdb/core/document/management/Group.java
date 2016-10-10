@@ -2,11 +2,13 @@ package org.webdocdb.core.document.management;
 
 import org.webdocdb.core.document.DocumentContent;
 import org.webdocdb.core.document.ManagementDocument;
+import org.webdocdb.core.document.annotation.IdGenerate;
 import org.webdocdb.core.document.annotation.Index;
 import org.webdocdb.core.document.annotation.IndexField;
 import org.webdocdb.core.document.annotation.Indexes;
 import org.webdocdb.core.document.annotation.PrimaryKey;
 import org.webdocdb.core.document.annotation.IndexField.IndexOrder;
+import org.webdocdb.core.document.system.UniqueId;
 
 @Indexes({
 	@Index(fields={@IndexField(name="groupId", order=IndexOrder.ASC)}, unique=true),
@@ -19,6 +21,7 @@ public class Group extends ManagementDocument {
 	public static final int GROUP_TYPE_USER = 0;
 	public static final int GROUP_TYPE_SYSTEM = 1;
 	
+	@IdGenerate(idType = UniqueId.ID_TYPE_ACCOUNT)
 	@PrimaryKey
 	private String groupId;
 	private String groupName;
