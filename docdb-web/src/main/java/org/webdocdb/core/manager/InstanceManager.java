@@ -20,6 +20,7 @@ import org.webdocdb.core.document.system.Collection;
 import org.webdocdb.core.document.system.Instance;
 import org.webdocdb.core.document.system.UniqueId;
 import org.webdocdb.core.transaction.TransactionThreadManager;
+import org.webdocdb.core.util.StringUtil;
 
 import com.mongodb.DBCollection;
 
@@ -85,6 +86,12 @@ public class InstanceManager {
 		List<UniqueId> colIdList = idManager.findCollectionIdByInstanceId(instanceId);
 		for (UniqueId colId : colIdList) {
 			collectionManager.remove(colId.getUniqueId());
+		}
+		Query query = new Query(Criteria.where("instanceId").is(instanceId));
+		for (Class<? extends Document> clazz : documentClasses) {
+			String collectionName = StringUtil.toLowerCamel(clazz.getSimpleName());
+			Collection collection = collectionManager.getByName(collectionName);
+			mongo.remove(query, clazz, collection.getCollectionId());
 		}
 		idManager.removeByInstanceId(instanceId);
 	}
