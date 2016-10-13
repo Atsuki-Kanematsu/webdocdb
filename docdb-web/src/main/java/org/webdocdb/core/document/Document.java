@@ -10,6 +10,8 @@ public interface Document {
 	public static final int STATUS_RESERVED = 3;
 	public static final int STATUS_REMOVED = 4;
 	
+	public String getNodePath();
+	public void setNodePath(String path);
 	public String getCreatorId();
 	public void setCreatorId(String creatorId);
 	public String getModifierId();

@@ -3,7 +3,7 @@ package org.webdocdb.core.document.user;
 import org.webdocdb.core.document.DocumentContent;
 import org.webdocdb.core.document.UserDocument;
 
-public class QueueDocument extends UserDocument {
+public class UserData extends UserDocument {
 
 	private String documentId;
 	private DocumentContent documentContent;

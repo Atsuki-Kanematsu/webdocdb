@@ -2,25 +2,37 @@ package org.webdocdb.core.document;
 
 import java.util.Date;
 
-import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.annotation.Transient;
+import org.webdocdb.core.util.StringUtil;
 
 public abstract class AbstractDocument implements Document {
 
-	@Field
+	private String nodePath;
 	private String creatorId;
-	@Field
 	private String modifierId;
-	@Field
 	private String removerId;
-	@Field
 	private Date createDatetime;
-	@Field
 	private Date modifyDatetime;
-	@Field
 	private Date removeDatetime;
-	@Field
 	private int status;
 	
+	@Transient
+	public String[] getNode() {
+		if (StringUtil.isEmpty(nodePath)) {
+			return new String[]{};
+		}
+		if (nodePath.startsWith("/")) {
+			return nodePath.substring(1).split("/");
+		}
+		return nodePath.split("/");
+	}
+	
+	public String getNodePath() {
+		return nodePath;
+	}
+	public void setNodePath(String nodePath) {
+		this.nodePath = nodePath;
+	}
 	public String getCreatorId() {
 		return creatorId;
 	}
