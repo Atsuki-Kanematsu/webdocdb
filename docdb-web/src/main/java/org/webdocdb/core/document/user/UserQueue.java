@@ -2,8 +2,8 @@ package org.webdocdb.core.document.user;
 
 import java.util.Date;
 
-import org.webdocdb.core.document.DocumentContent;
 import org.webdocdb.core.document.UserDocument;
+import org.webdocdb.core.document.content.DocumentContent;
 
 public class UserQueue extends UserDocument {
 

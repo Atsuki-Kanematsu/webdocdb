@@ -2,12 +2,12 @@ package org.webdocdb.core.document.management;
 
 import java.util.Date;
 
-import org.webdocdb.core.document.DocumentContent;
 import org.webdocdb.core.document.ManagementDocument;
 import org.webdocdb.core.document.annotation.IdGenerate;
 import org.webdocdb.core.document.annotation.Index;
 import org.webdocdb.core.document.annotation.IndexField;
 import org.webdocdb.core.document.annotation.IndexField.IndexOrder;
+import org.webdocdb.core.document.content.DocumentContent;
 import org.webdocdb.core.document.system.UniqueId;
 import org.webdocdb.core.document.annotation.Indexes;
 import org.webdocdb.core.document.annotation.PrimaryKey;

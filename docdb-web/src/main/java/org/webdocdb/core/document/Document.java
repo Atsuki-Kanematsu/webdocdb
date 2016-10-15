@@ -10,6 +10,16 @@ public interface Document {
 	public static final int STATUS_RESERVED = 3;
 	public static final int STATUS_REMOVED = 4;
 	
+	public static final int PERMISSION_READ = 1;
+	public static final int PERMISSION_WRITE = 2;
+
+	public int getAccountPermission();
+	public void setAccountPermission(int permission);
+	public int getGroupPermission();
+	public void setGroupPermission(int permission);
+	public int getOtherPermission();
+	public void setOtherPermission(int permission);
+	
 	public String getNodePath();
 	public void setNodePath(String path);
 	public String getCreatorId();

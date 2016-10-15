@@ -4,12 +4,12 @@ import java.util.Map;
 
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.webdocdb.core.document.AbstractDocument;
-import org.webdocdb.core.document.DocumentContent;
 import org.webdocdb.core.document.annotation.Index;
 import org.webdocdb.core.document.annotation.IndexField;
 import org.webdocdb.core.document.annotation.Indexes;
 import org.webdocdb.core.document.annotation.PrimaryKey;
 import org.webdocdb.core.document.annotation.IndexField.IndexOrder;
+import org.webdocdb.core.document.content.DocumentContent;
 
 @Indexes({
 	@Index(fields={@IndexField(name="instanceId", order=IndexOrder.ASC)}, unique=true),

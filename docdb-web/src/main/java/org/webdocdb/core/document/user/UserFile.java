@@ -1,7 +1,7 @@
 package org.webdocdb.core.document.user;
 
-import org.webdocdb.core.document.DocumentContent;
 import org.webdocdb.core.document.UserDocument;
+import org.webdocdb.core.document.content.DocumentContent;
 
 public class UserFile extends UserDocument {
 
@@ -9,7 +9,7 @@ public class UserFile extends UserDocument {
 	private DocumentContent documentContent;
 	private String transactorId;
 	private DocumentContent transactContent;
-	
+	private String saveDirectory;
 	public String getDocumentId() {
 		return documentId;
 	}
@@ -34,6 +34,10 @@ public class UserFile extends UserDocument {
 	public void setTransactContent(DocumentContent transactContent) {
 		this.transactContent = transactContent;
 	}
-
-	
+	public String getSaveDirectory() {
+		return saveDirectory;
+	}
+	public void setSaveDirectory(String saveDirectory) {
+		this.saveDirectory = saveDirectory;
+	}
 }

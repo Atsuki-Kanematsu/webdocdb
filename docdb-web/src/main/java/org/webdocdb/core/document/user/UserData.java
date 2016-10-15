@@ -1,7 +1,7 @@
 package org.webdocdb.core.document.user;
 
-import org.webdocdb.core.document.DocumentContent;
 import org.webdocdb.core.document.UserDocument;
+import org.webdocdb.core.document.content.DocumentContent;
 
 public class UserData extends UserDocument {
 

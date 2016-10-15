@@ -8,6 +8,11 @@ import org.webdocdb.core.util.StringUtil;
 public abstract class AbstractDocument implements Document {
 
 	private String nodePath;
+	
+	private int accountPermission;
+	private int groupPermission;
+	private int otherPermission;
+	
 	private String creatorId;
 	private String modifierId;
 	private String removerId;
@@ -32,6 +37,24 @@ public abstract class AbstractDocument implements Document {
 	}
 	public void setNodePath(String nodePath) {
 		this.nodePath = nodePath;
+	}
+	public int getAccountPermission() {
+		return accountPermission;
+	}
+	public void setAccountPermission(int accountPermission) {
+		this.accountPermission = accountPermission;
+	}
+	public int getGroupPermission() {
+		return groupPermission;
+	}
+	public void setGroupPermission(int groupPermission) {
+		this.groupPermission = groupPermission;
+	}
+	public int getOtherPermission() {
+		return otherPermission;
+	}
+	public void setOtherPermission(int otherPermission) {
+		this.otherPermission = otherPermission;
 	}
 	public String getCreatorId() {
 		return creatorId;
