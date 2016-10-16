@@ -33,6 +33,9 @@ public class TransactionThreadManager {
 		out();
 	}
 	
+	public void in(AccessAccount account) {
+		
+	}
 	public void in(String accountId) {
 		in(null, null, accountId, new Date());
 	}
@@ -110,5 +113,33 @@ public class TransactionThreadManager {
 			this.accessDatetime = accessDatetime;
 		}
 		
+	}
+	
+	public static class AccessAccount {
+
+		private String instanceId;
+		private String accountId;
+		private String groupId;
+		
+		public AccessAccount(String instanceId, String accountId, String groupId) {
+			this.instanceId = instanceId;
+			this.accountId = accountId;
+			this.groupId = groupId;
+		}
+		
+		public AccessAccount(String accountId, String groupId) {
+			this(null, accountId, groupId);
+		}
+		
+
+		public String getInstanceId() {
+			return instanceId;
+		}
+		public String getAccountId() {
+			return accountId;
+		}
+		public String getGroupId() {
+			return groupId;
+		}
 	}
 }

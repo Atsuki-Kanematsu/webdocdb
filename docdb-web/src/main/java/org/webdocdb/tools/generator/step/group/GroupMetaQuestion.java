@@ -32,7 +32,7 @@ public class GroupMetaQuestion implements Question {
 			List<Group> groups = params.getGroups();
 			Group lastGroup = groups.get(groups.size() - 1);
 			try {
-				lastGroup.setGroupMeta(new JsonContent());
+				lastGroup.setGroupMeta(new JsonContent("{}"));
 			} catch (DocumentContentParseException e) {
 				throw new RuntimeException(e);
 			}

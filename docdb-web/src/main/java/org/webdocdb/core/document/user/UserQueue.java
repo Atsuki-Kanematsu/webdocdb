@@ -5,12 +5,14 @@ import java.util.Date;
 import org.webdocdb.core.document.UserDocument;
 import org.webdocdb.core.document.content.DocumentContent;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 public class UserQueue extends UserDocument {
 
 	private String documentId;
-	private DocumentContent documentContent;
+	private DocumentContent<JsonNode> documentContent;
 	private String transactorId;
-	private DocumentContent transactContent;
+	private DocumentContent<JsonNode> transactContent;
 	private Date enqueueDatetime;
 	private Date dequeueScheduleDatetime;
 	private long failedCount;
@@ -21,10 +23,10 @@ public class UserQueue extends UserDocument {
 	public void setDocumentId(String documentId) {
 		this.documentId = documentId;
 	}
-	public DocumentContent getDocumentContent() {
+	public DocumentContent<JsonNode> getDocumentContent() {
 		return documentContent;
 	}
-	public void setDocumentContent(DocumentContent documentContent) {
+	public void setDocumentContent(DocumentContent<JsonNode> documentContent) {
 		this.documentContent = documentContent;
 	}
 	public String getTransactorId() {
@@ -33,10 +35,10 @@ public class UserQueue extends UserDocument {
 	public void setTransactorId(String transactorId) {
 		this.transactorId = transactorId;
 	}
-	public DocumentContent getTransactContent() {
+	public DocumentContent<JsonNode> getTransactContent() {
 		return transactContent;
 	}
-	public void setTransactContent(DocumentContent transactContent) {
+	public void setTransactContent(DocumentContent<JsonNode> transactContent) {
 		this.transactContent = transactContent;
 	}
 	public Date getEnqueueDatetime() {

@@ -43,8 +43,7 @@ public class GenerateQuestion implements Question {
 	@Override
 	public void process(String value) {
 		// タイムスタンプの設定
-		String accountId = InstanceGenerator.class.getSimpleName();
-		accountId = StringUtil.toLowerCamel(accountId);
+		String accountId = StringUtil.toLowerCamel(InstanceGenerator.class.getSimpleName());
 		transactionManager.in(accountId);
 		instanceManager.create(params.getInstance());
 	}

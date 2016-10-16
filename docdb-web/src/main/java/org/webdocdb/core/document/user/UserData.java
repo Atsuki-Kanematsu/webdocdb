@@ -3,12 +3,14 @@ package org.webdocdb.core.document.user;
 import org.webdocdb.core.document.UserDocument;
 import org.webdocdb.core.document.content.DocumentContent;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 public class UserData extends UserDocument {
 
 	private String documentId;
-	private DocumentContent documentContent;
+	private DocumentContent<JsonNode> documentContent;
 	private String transactorId;
-	private DocumentContent transactContent;
+	private DocumentContent<JsonNode> transactContent;
 	
 	public String getDocumentId() {
 		return documentId;
@@ -16,10 +18,10 @@ public class UserData extends UserDocument {
 	public void setDocumentId(String documentId) {
 		this.documentId = documentId;
 	}
-	public DocumentContent getDocumentContent() {
+	public DocumentContent<JsonNode> getDocumentContent() {
 		return documentContent;
 	}
-	public void setDocumentContent(DocumentContent documentContent) {
+	public void setDocumentContent(DocumentContent<JsonNode> documentContent) {
 		this.documentContent = documentContent;
 	}
 	public String getTransactorId() {
@@ -28,10 +30,10 @@ public class UserData extends UserDocument {
 	public void setTransactorId(String transactorId) {
 		this.transactorId = transactorId;
 	}
-	public DocumentContent getTransactContent() {
+	public DocumentContent<JsonNode> getTransactContent() {
 		return transactContent;
 	}
-	public void setTransactContent(DocumentContent transactContent) {
+	public void setTransactContent(DocumentContent<JsonNode> transactContent) {
 		this.transactContent = transactContent;
 	}
 
