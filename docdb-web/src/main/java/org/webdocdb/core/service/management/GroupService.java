@@ -5,8 +5,6 @@ import org.webdocdb.core.document.content.DocumentContent;
 import org.webdocdb.core.document.management.Group;
 import org.webdocdb.core.service.SystemDocumentService;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 public class GroupService extends SystemDocumentService<Group> {
 
 	public Group findById(String groupId) {
@@ -21,7 +19,7 @@ public class GroupService extends SystemDocumentService<Group> {
 		return this.create(groupName, null);
 	}
 	
-	public Group create(String groupName, DocumentContent<JsonNode> meta) {
+	public Group create(String groupName, DocumentContent meta) {
 		Group group = new Group();
 		group.setGroupName(groupName);
 		group.setGroupMeta(meta);

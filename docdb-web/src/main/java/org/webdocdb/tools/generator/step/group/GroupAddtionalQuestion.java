@@ -8,6 +8,7 @@ import org.webdocdb.core.util.StringUtil;
 import org.webdocdb.tools.generator.GenerationParameters;
 import org.webdocdb.tools.generator.step.Question;
 import org.webdocdb.tools.generator.step.account.AccountAddtionalQuestion;
+import org.webdocdb.tools.generator.step.account.AdminAccountPasswordQuestion;
 
 @Component
 public class GroupAddtionalQuestion implements Question {
@@ -19,7 +20,7 @@ public class GroupAddtionalQuestion implements Question {
 	private GenerationParameters params;
 	
 	@Autowired
-	protected AccountAddtionalQuestion skippedQuestion;
+	protected AdminAccountPasswordQuestion skippedQuestion;
 
 	@Autowired
 	protected GroupNameQuestion nextQuestion;

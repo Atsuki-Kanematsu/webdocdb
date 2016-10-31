@@ -1,9 +1,11 @@
 package org.webdocdb.core.document.content;
 
-public abstract class DocumentContent<T> {
+import com.mongodb.DBObject;
+
+public abstract class DocumentContent {
 
 	private String contentType;
-	private T content;
+	private DBObject content;
 	
 	public String getContentType() {
 		return contentType;
@@ -11,10 +13,10 @@ public abstract class DocumentContent<T> {
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
 	}
-	public T getContent() {
+	public DBObject getContent() {
 		return content;
 	}
-	public void setContent(T content) {
+	public void setContent(DBObject content) {
 		this.content = content;
 	}
 	

@@ -10,8 +10,6 @@ import org.webdocdb.core.document.annotation.IndexField.IndexOrder;
 import org.webdocdb.core.document.content.DocumentContent;
 import org.webdocdb.core.document.system.UniqueId;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import org.webdocdb.core.document.annotation.Indexes;
 import org.webdocdb.core.document.annotation.PrimaryKey;
 
@@ -28,7 +26,7 @@ public class Account extends ManagementDocument {
 	@PrimaryKey
 	private String accountId;
 	private String accountName;
-	private DocumentContent<JsonNode> accountMeta;
+	private DocumentContent accountMeta;
 	private String loginId;
 	private String password;
 	private String initialPassword;
@@ -50,10 +48,10 @@ public class Account extends ManagementDocument {
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
 	}
-	public DocumentContent<JsonNode> getAccountMeta() {
+	public DocumentContent getAccountMeta() {
 		return accountMeta;
 	}
-	public void setAccountMeta(DocumentContent<JsonNode> accountMeta) {
+	public void setAccountMeta(DocumentContent accountMeta) {
 		this.accountMeta = accountMeta;
 	}
 	public String getLoginId() {

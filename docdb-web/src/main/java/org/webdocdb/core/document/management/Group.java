@@ -10,8 +10,6 @@ import org.webdocdb.core.document.annotation.IndexField.IndexOrder;
 import org.webdocdb.core.document.content.DocumentContent;
 import org.webdocdb.core.document.system.UniqueId;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 @Indexes({
 	@Index(fields={@IndexField(name="groupId", order=IndexOrder.ASC)}, unique=true),
 	@Index(fields={@IndexField(name="groupName", order=IndexOrder.ASC),
@@ -27,7 +25,7 @@ public class Group extends ManagementDocument {
 	@PrimaryKey
 	private String groupId;
 	private String groupName;
-	private DocumentContent<JsonNode> groupMeta;
+	private DocumentContent groupMeta;
 	private int groupType;
 	
 	public String getGroupId() {
@@ -42,10 +40,10 @@ public class Group extends ManagementDocument {
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}
-	public DocumentContent<JsonNode> getGroupMeta() {
+	public DocumentContent getGroupMeta() {
 		return groupMeta;
 	}
-	public void setGroupMeta(DocumentContent<JsonNode> groupMeta) {
+	public void setGroupMeta(DocumentContent groupMeta) {
 		this.groupMeta = groupMeta;
 	}
 	public int getGroupType() {

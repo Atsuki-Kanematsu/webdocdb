@@ -1,16 +1,14 @@
 package org.webdocdb.core.document.user;
 
-import java.io.File;
-
 import org.webdocdb.core.document.UserDocument;
 import org.webdocdb.core.document.content.DocumentContent;
 
 public class UserFile extends UserDocument {
 
 	private String documentId;
-	private DocumentContent<File> documentContent;
+	private DocumentContent documentContent;
 	private String transactorId;
-	private DocumentContent<File> transactContent;
+	private DocumentContent transactContent;
 	private String saveDirectory;
 	public String getDocumentId() {
 		return documentId;
@@ -18,10 +16,10 @@ public class UserFile extends UserDocument {
 	public void setDocumentId(String documentId) {
 		this.documentId = documentId;
 	}
-	public DocumentContent<File> getDocumentContent() {
+	public DocumentContent getDocumentContent() {
 		return documentContent;
 	}
-	public void setDocumentContent(DocumentContent<File> documentContent) {
+	public void setDocumentContent(DocumentContent documentContent) {
 		this.documentContent = documentContent;
 	}
 	public String getTransactorId() {
@@ -30,10 +28,10 @@ public class UserFile extends UserDocument {
 	public void setTransactorId(String transactorId) {
 		this.transactorId = transactorId;
 	}
-	public DocumentContent<File> getTransactContent() {
+	public DocumentContent getTransactContent() {
 		return transactContent;
 	}
-	public void setTransactContent(DocumentContent<File> transactContent) {
+	public void setTransactContent(DocumentContent transactContent) {
 		this.transactContent = transactContent;
 	}
 	public String getSaveDirectory() {

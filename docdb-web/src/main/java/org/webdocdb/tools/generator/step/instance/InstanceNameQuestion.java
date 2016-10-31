@@ -47,7 +47,7 @@ public class InstanceNameQuestion implements Question {
 
 	@Override
 	public String getText() {
-		return "instance-name";
+		return "インスタンス名";
 	}
 
 }

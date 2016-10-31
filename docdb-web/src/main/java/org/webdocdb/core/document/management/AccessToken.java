@@ -9,8 +9,6 @@ import org.webdocdb.core.document.annotation.Indexes;
 import org.webdocdb.core.document.annotation.validation.Required;
 import org.webdocdb.core.document.content.DocumentContent;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import org.webdocdb.core.document.annotation.IndexField.IndexOrder;
 
 @Indexes({
@@ -31,7 +29,7 @@ public class AccessToken extends ManagementDocument {
 	@Required
 	private Date lastAccessDatetime;
 	private Date expireDatetime;
-	private DocumentContent<JsonNode> tokenMeta;
+	private DocumentContent tokenMeta;
 	
 	public String getAccessToken() {
 		return accessToken;
@@ -69,10 +67,10 @@ public class AccessToken extends ManagementDocument {
 	public void setExpireDatetime(Date expireDatetime) {
 		this.expireDatetime = expireDatetime;
 	}
-	public DocumentContent<JsonNode> getTokenMeta() {
+	public DocumentContent getTokenMeta() {
 		return tokenMeta;
 	}
-	public void setTokenMeta(DocumentContent<JsonNode> tokenMeta) {
+	public void setTokenMeta(DocumentContent tokenMeta) {
 		this.tokenMeta = tokenMeta;
 	}
 

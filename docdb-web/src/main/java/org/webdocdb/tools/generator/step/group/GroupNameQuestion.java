@@ -52,7 +52,7 @@ public class GroupNameQuestion implements Question {
 
 	@Override
 	public String getText() {
-		return "group-name";
+		return "グループ名";
 	}
 
 }

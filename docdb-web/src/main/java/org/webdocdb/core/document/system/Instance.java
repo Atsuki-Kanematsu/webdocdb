@@ -11,8 +11,6 @@ import org.webdocdb.core.document.annotation.PrimaryKey;
 import org.webdocdb.core.document.annotation.IndexField.IndexOrder;
 import org.webdocdb.core.document.content.DocumentContent;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 @Indexes({
 	@Index(fields={@IndexField(name="instanceId", order=IndexOrder.ASC)}, unique=true),
 })
@@ -22,7 +20,7 @@ public class Instance extends AbstractDocument {
 	@Field("instanceId")
 	private String instanceId;
 	private String instanceName;
-	private DocumentContent<JsonNode> instanceMeta;
+	private DocumentContent instanceMeta;
 	private Map<String, InstanceParameter> parameters;
 	
 	public String getInstanceId() {
@@ -37,10 +35,10 @@ public class Instance extends AbstractDocument {
 	public void setInstanceName(String instanceName) {
 		this.instanceName = instanceName;
 	}
-	public DocumentContent<JsonNode> getInstanceMeta() {
+	public DocumentContent getInstanceMeta() {
 		return instanceMeta;
 	}
-	public void setInstanceMeta(DocumentContent<JsonNode> instanceMeta) {
+	public void setInstanceMeta(DocumentContent instanceMeta) {
 		this.instanceMeta = instanceMeta;
 	}
 	public Map<String, InstanceParameter> getParameters() {
