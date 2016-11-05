@@ -13,6 +13,7 @@ public class UniqueId extends AbstractDocument {
 
 	public static final int ID_TYPE_COLLECTION = 1;
 	public static final int ID_TYPE_INSTANCE = 2;
+	public static final int ID_TYPE_TRANSACTION = 3;
 	public static final int ID_TYPE_ACCOUNT = 101;
 	public static final int ID_TYPE_GROUP = 102;
 	public static final int ID_TYPE_LANGUAGE = 103;

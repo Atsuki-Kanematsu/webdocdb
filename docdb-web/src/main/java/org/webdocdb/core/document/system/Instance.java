@@ -17,7 +17,6 @@ import org.webdocdb.core.document.content.DocumentContent;
 public class Instance extends AbstractDocument {
 
 	@PrimaryKey
-	@Field("instanceId")
 	private String instanceId;
 	private String instanceName;
 	private DocumentContent instanceMeta;

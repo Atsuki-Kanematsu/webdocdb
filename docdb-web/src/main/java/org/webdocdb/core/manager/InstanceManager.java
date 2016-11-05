@@ -18,6 +18,8 @@ import org.webdocdb.core.document.management.Language;
 import org.webdocdb.core.document.management.Message;
 import org.webdocdb.core.document.system.Collection;
 import org.webdocdb.core.document.system.Instance;
+import org.webdocdb.core.document.system.LockedDocument;
+import org.webdocdb.core.document.system.Transaction;
 import org.webdocdb.core.document.system.UniqueId;
 import org.webdocdb.core.transaction.TransactionThreadManager;
 import org.webdocdb.core.util.StringUtil;
@@ -39,6 +41,8 @@ public class InstanceManager {
 		documentClasses.add(AccessToken.class);
 		documentClasses.add(Language.class);
 		documentClasses.add(Message.class);
+		documentClasses.add(Transaction.class);
+		documentClasses.add(LockedDocument.class);
 	}
 	@Autowired
 	protected MongoOperations mongo;

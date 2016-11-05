@@ -5,13 +5,11 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.webdocdb.core.document.management.Account;
-import org.webdocdb.core.util.ArrayUtil;
 import org.webdocdb.core.util.HashUtil;
 import org.webdocdb.core.util.HashUtil.HashAlgorithm;
 import org.webdocdb.tools.generator.GenerationParameters;
 import org.webdocdb.tools.generator.step.Question;
 import org.webdocdb.tools.generator.step.account.AdminAccountPasswordQuestion;
-import org.webdocdb.tools.generator.step.last.SettingExportQuestion;
 import org.webdocdb.core.util.StringUtil;
 
 @Component

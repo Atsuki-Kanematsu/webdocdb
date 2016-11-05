@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Set;
 
 import org.webdocdb.core.document.ManagementDocument;
+import org.webdocdb.core.document.annotation.IdGenerate;
 import org.webdocdb.core.document.annotation.Index;
 import org.webdocdb.core.document.annotation.IndexField;
 import org.webdocdb.core.document.annotation.PrimaryKey;
@@ -12,11 +13,12 @@ import org.webdocdb.core.document.annotation.PrimaryKey;
 public class Transaction extends ManagementDocument {
 
 	@PrimaryKey
+	@IdGenerate(idType=UniqueId.ID_TYPE_TRANSACTION, reserve=false)
 	private String transactionId;
 	private String transactorId;
 	private Date beginDatetime;
 	private Date limitDatetime;
-	private Set<String> transactDocuments;
+	private Set<String> transactCollections;
 	
 	public String getTransactionId() {
 		return transactionId;
@@ -42,12 +44,10 @@ public class Transaction extends ManagementDocument {
 	public void setLimitDatetime(Date limitDatetime) {
 		this.limitDatetime = limitDatetime;
 	}
-	public Set<String> getTransactDocuments() {
-		return transactDocuments;
+	public Set<String> getTransactCollections() {
+		return transactCollections;
 	}
-	public void setTransactDocuments(Set<String> transactDocuments) {
-		this.transactDocuments = transactDocuments;
+	public void setTransactCollections(Set<String> transactCollections) {
+		this.transactCollections = transactCollections;
 	}
-	
-	
 }

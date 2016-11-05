@@ -1,6 +1,13 @@
 package org.webdocdb.tools.crud.command;
 
-public class AbstractCommand {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import org.webdocdb.tools.crud.CommandRegistry;
+import org.webdocdb.tools.crud.exception.InvalidArgumentException;
+
+public abstract class AbstractCommand {
 	
 	public static enum RedirectMode {
 		NONE,
@@ -10,48 +17,37 @@ public class AbstractCommand {
 	
 	private static final String LINE_SEPARATOR = "\n";
 	
-	private String command;
-	private String[] args;
 	private RedirectMode redirectMode;
 	private String redirectPath;
 	
-	public AbstractCommand(String commandLine) {
-		commandLine = cutAndParseRedirect(commandLine.trim());
-		int pos = commandLine.indexOf(" ");
-		if (pos == -1) {
-			command = commandLine;
-			args = new String[0];
-		} else {
-			command = commandLine.substring(0, pos);
-			args = command.substring(pos + 1).split(" ");
+	protected abstract Set<CommandSwitchDef> defineAllowSwitch() ;
+	
+	public abstract boolean execute(CommandRegistry registery);
+	
+	public AbstractCommand(String commandLine) throws InvalidArgumentException {
+		Set<CommandSwitchDef> defSet = defineAllowSwitch();
+		List<CommandSwitch> switchList = parseCommand(commandLine);
+		if (!checkUnsupportSwitch(switchList, defSet)) {
+			throw new InvalidArgumentException("");
+		}
+		if (!checkRequiredSwitch(switchList, defSet)) {
+			throw new InvalidArgumentException("");
 		}
 	}
 	
-	private String cutAndParseRedirect(String commandLine) {
-		redirectMode = RedirectMode.NONE;
-		int pos = commandLine.indexOf(">");
-		if (pos == -1) {
-			return commandLine;
-		}
-		String redirectText = commandLine.substring(pos);
-		if (redirectText.startsWith(">>")) {
-			redirectMode = RedirectMode.APPEND;
-			redirectPath = redirectText.substring(2).trim();
-		} else {
-			redirectMode = RedirectMode.WRITE;
-			redirectPath = redirectText.substring(1).trim();
-		}
-		return commandLine.substring(0, pos).trim();
+	
+	private List<CommandSwitch> parseCommand(String commandList) {
+		return null;
 	}
-
-	public String getCommand() {
-		return command;
+	
+	private boolean checkUnsupportSwitch(List<CommandSwitch> switchList, Set<CommandSwitchDef> defSet) {
+		return true;
 	}
-
-	public String[] getArgs() {
-		return args;
+	
+	private boolean checkRequiredSwitch(List<CommandSwitch> switchList, Set<CommandSwitchDef> defSet) {
+		return true;
 	}
-
+	
 	public RedirectMode getRedirectMode() {
 		return redirectMode;
 	}
@@ -66,5 +62,42 @@ public class AbstractCommand {
 	
 	protected void printConsoleLine(String log) {
 		printConsole(log + LINE_SEPARATOR);
+	}
+	
+	public static class CommandSwitchDef {
+		private String commandSwitch;
+		private boolean needValue;
+		private boolean required;
+		
+		public CommandSwitchDef(String commandSwitch, boolean needValue, boolean required) {
+			this.commandSwitch = commandSwitch;
+			this.needValue = needValue;
+			this.required = required;
+		}
+		public String getCommandSwitch() {
+			return commandSwitch;
+		}
+		public boolean isNeedValue() {
+			return needValue;
+		}
+		public boolean isRequired() {
+			return required;
+		}
+		
+	}
+	
+	public static class CommandSwitch {
+		private String commandSwitch;
+		private String switchValue;
+		public CommandSwitch(String commandSwitch, String switchValue) {
+			this.commandSwitch = commandSwitch;
+			this.switchValue = switchValue;
+		}
+		public String getCommandSwitch() {
+			return commandSwitch;
+		}
+		public String getSwitchValue() {
+			return switchValue;
+		}
 	}
 }

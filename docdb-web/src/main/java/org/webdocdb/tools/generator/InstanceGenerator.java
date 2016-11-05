@@ -16,7 +16,7 @@ import org.webdocdb.tools.generator.step.Question.ValidationResult;
 import org.webdocdb.tools.generator.step.instance.InstanceNameQuestion;
 
 @SpringBootApplication(exclude = {EmbeddedServletContainerAutoConfiguration.class, WebMvcAutoConfiguration.class})
-@ComponentScan({"org.webdocdb.generator", "org.webdocdb.core"})
+@ComponentScan({"org.webdocdb.tools.generator", "org.webdocdb.core"})
 public class InstanceGenerator {
 
 	public static void main(String[] args) throws IOException {

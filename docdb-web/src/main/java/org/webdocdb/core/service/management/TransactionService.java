@@ -18,7 +18,7 @@ public class TransactionService extends SystemDocumentService<Transaction> {
 		tran.setTransactorId(account.getAccountId());
 		tran.setBeginDatetime(new Date());
 		tran.setLimitDatetime(new Date());
-		tran.setTransactDocuments(new HashSet<>());
+		tran.setTransactCollections(new HashSet<>());
 		super.insert(tran);
 		return tran.getTransactionId();
 	}

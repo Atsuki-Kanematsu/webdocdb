@@ -32,6 +32,9 @@ public class StringUtil {
 		pos = value.indexOf("_");
 		do {
 			pos = value.indexOf("_");
+			if (pos < 0) {
+				break;
+			}
 			String before = value.substring(0, pos);
 			String wordTop = value.substring(pos + 1, pos + 2).toUpperCase();
 			String after = value.substring(pos + 2);
